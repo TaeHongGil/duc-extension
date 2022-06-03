@@ -10,6 +10,7 @@
 	"categories": [
 		"Other"
 	],
+	"publisher": "DOUBLEUGAMES",
 	"activationEvents": [
 		"onView:nodeDependencies",
 		"onView:fileExplorer",
