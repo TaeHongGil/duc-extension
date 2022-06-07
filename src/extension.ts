@@ -154,7 +154,7 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("mvn antrun:run");
 			if (fs.existsSync(tomcatWorkspace)) {
 				if(workspace.workspaceFolders){
-					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
 			else{
@@ -194,7 +194,7 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
 			if (fs.existsSync(tomcatWorkspace)) {
 				if(workspace.workspaceFolders){
-					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
 			else{

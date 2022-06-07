@@ -334,6 +334,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			let folder = ["duc-api-web", "duc-simulation-web", "dug-cdn-web"];
 			let str = "";
+			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources/*");
 			for (let index = 0; index < folder.length; index++) {
 				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
 				terminal.sendText("cd " + str);
@@ -455,7 +456,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			terminal.sendText("mvn antrun:run");
 			if (fs.existsSync(tomcatWorkspace)) {
 				if (workspace.workspaceFolders) {
-					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
 			else {
@@ -489,7 +490,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
 			if (fs.existsSync(tomcatWorkspace)) {
 				if (workspace.workspaceFolders) {
-					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
 			else {
