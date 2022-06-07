@@ -39,7 +39,7 @@
 				{
 					"id": "package-explorer",
 					"title": "DUC Directory",
-					"icon": "resources/dug_logo.png"
+					"icon": "resources/dug_view.png"
 				}
 			]
 		},
