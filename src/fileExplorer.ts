@@ -6,6 +6,10 @@ import * as utils from './funtion';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
+const Tomcat = workspace.getConfiguration("tomcat");
+const tomcatServerName = DUC.get('serverName', "");
+const tomcatPath = Tomcat.get("workspace");
+const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
 const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
@@ -294,7 +298,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 					return a[1] === vscode.FileType.Directory ? -1 : 1;
 				});
 				return children.map(([name, type]) => (
-					{ uri: name}
+					{ uri: name }
 				));
 			}
 		}
@@ -313,69 +317,52 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	updateAll() {
-		let arrry = this.getChildren();
-		arrry.then(result => {
-			if (workspace.workspaceFolders) {
-				vscode.window.showInformationMessage("Maven Update Duc");
-				let terminalArray = [];
-				terminalArray.push(vscode.window.createTerminal({
-					name: "Update1",
-					hideFromUser: false,
-				}));
-				terminalArray.push(vscode.window.createTerminal({
-					name: "Update2",
-					hideFromUser: false,
-				}));
-				terminalArray.push(vscode.window.createTerminal({
-					name: "Update3",
-					hideFromUser: false,
-				}));
-				terminalArray.push(vscode.window.createTerminal({
-					name: "Update4",
-					hideFromUser: false,
-				}));
-				terminalArray[0].show();
-				terminalArray[1].show();
-				terminalArray[2].show();
-				terminalArray[3].show();
-				let webIndex = -1;
-
-				for (let index = 0; index < result.length; index++) {
-					const element = result[index];
-					if(result[index].uri == "duc-simulation-web"){
-						webIndex = index;
-						continue;
-					}
-					let i = index % 4;
-					let str = workspace.workspaceFolders[0].uri.fsPath + "/" + result[index].uri;
-					terminalArray[i].sendText("cd " + str);
-					terminalArray[i].sendText("mvn clean install -U");
-				}
-				terminalArray[0].sendText("exit");
-				terminalArray[1].sendText("exit");
-				terminalArray[2].sendText("exit");
-				terminalArray[3].sendText("exit");
-				if(webIndex >= 0){
-					let str = workspace.workspaceFolders[0].uri.fsPath + "/" + result[webIndex].uri;
-					let terminal = vscode.window.createTerminal({
-						name: "Maven Update",
-						hideFromUser: false,
-					});
-					terminal.show();
-					terminal.sendText("export GRADLE_HOME=" + gradlePath);
-					terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-					terminal.sendText("export JAVA_HOME=" + jvmPath);
-					terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");		
-					terminal.sendText("cd " + str);
-					terminal.sendText("mvn clean install -U");
-					terminal.sendText("exit");
-				}
-				vscode.window.showInformationMessage("" + terminalArray[0].exitStatus);
+		if (!fs.existsSync(tomcatWorkspace)) {
+			vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			return;
+		}
+		if (workspace.workspaceFolders) {
+			vscode.window.showInformationMessage("Maven Update Duc");
+			let terminal = vscode.window.createTerminal({
+				name: "Maven Update All",
+				hideFromUser: false,
+			});
+			terminal.show();
+			terminal.sendText("export GRADLE_HOME=" + gradlePath);
+			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
+			terminal.sendText("export JAVA_HOME=" + jvmPath);
+			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+			let folder = ["duc-api-web", "duc-simulation-web", "dug-cdn-web"];
+			let str = "";
+			for (let index = 0; index < folder.length; index++) {
+				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
+				terminal.sendText("cd " + str);
+				terminal.sendText("mvn clean install -U");
+				terminal.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);
+				terminal.sendText("cp -r " + str + "/target/" + folder[index] + " " + tomcatWorkspace + "/webapps/");
 			}
-		})
+			// let arrry = this.getChildren();
+			// arrry.then(result => {
+			// 	let simul = [];
+			// 	for (let index = 0; index < result.length; index++) {
+			// 		let isSimul = regExpSimul.test(result[index].uri);
+			// 		if (isSimul) {
+			// 			simul.push(result[index].uri);
+			// 		}
+			// 	}
+			// 	for (let i = 0; i < simul.length; i++) {
+			// 		if (workspace.workspaceFolders) {
+			// 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + simul[i];
+			// 		}
+			// 		terminal.sendText("cd " + str);
+			// 		terminal.sendText("mvn clean install -U");
+			// 		terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
+			// 	}
+			// })
+		}
 	}
 
-	update(node: Entry){
+	update(node: Entry) {
 		let str = ""
 		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
@@ -443,12 +430,12 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		terminal.sendText("mvn clean install -U");
 	}
 
-	webpack(node: Entry){
-		if(utils.settingCheck()){
-			return ;
+	webpack(node: Entry) {
+		if (utils.settingCheck()) {
+			return;
 		}
 		let str = ""
-		if(workspace.workspaceFolders){
+		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
 		let isUi = regExpUi.test(str);
@@ -466,6 +453,14 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			terminal.sendText("cd " + str);
 			terminal.sendText("mvn frontend:webpack");
 			terminal.sendText("mvn antrun:run");
+			if (fs.existsSync(tomcatWorkspace)) {
+				if (workspace.workspaceFolders) {
+					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+				}
+			}
+			else {
+				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			}
 		}
 		else {
 			vscode.window.showErrorMessage("UI 프로젝트가 아닙니다");
@@ -488,12 +483,18 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				hideFromUser: false,
 			});
 			terminal.show();
-			terminal.sendText("export GRADLE_HOME=" + gradlePath);
-			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
 			terminal.sendText("export JAVA_HOME=" + jvmPath);
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			terminal.sendText("cd " + str);
-			terminal.sendText("gradle deployCdnAnimateSlot");
+			terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
+			if (fs.existsSync(tomcatWorkspace)) {
+				if (workspace.workspaceFolders) {
+					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+				}
+			}
+			else {
+				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			}
 		}
 		else {
 			vscode.window.showErrorMessage("UI 프로젝트가 아닙니다");

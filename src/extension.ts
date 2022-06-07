@@ -8,6 +8,10 @@ import * as fs from 'fs';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
+const Tomcat = workspace.getConfiguration("tomcat");
+const tomcatServerName = DUC.get('serverName', "");
+const tomcatPath = Tomcat.get("workspace");
+const tomcatWorkspace = tomcatPath + "/" +tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
 const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
@@ -34,13 +38,64 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let str = "";
 	let strArray = new Array;
+	
+	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => {
+		let terminal = vscode.window.createTerminal({
+			name: "Tomcat Force Stop",
+			hideFromUser: false,
+		});
+		terminal.show();
+		terminal.sendText("RESULT=$(lsof -i :8080 | awk 'NR==2 {print $2}')");
+		terminal.sendText("kill $RESULT");
+	});
+	context.subscriptions.push(serverStop);
+
+	let refresh = vscode.commands.registerCommand('duc.refresh', async () => {
+		let slotNum = await vscode.window.showInputBox({
+			placeHolder: "Slot number",
+			prompt: "Slot number",
+		  });
+		if(slotNum === ""){
+			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
+			return ;
+		}
+		if(utils.settingCheck()){
+			return ;
+		}
+		if(workspace.workspaceFolders){
+			str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
+		}
+		if (fs.existsSync(str)) {
+			let terminal = vscode.window.createTerminal({
+				name: "Simulation Refresh",
+				hideFromUser: false,
+			});
+			terminal.show();
+			terminal.sendText("export GRADLE_HOME=" + gradlePath);
+			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
+			terminal.sendText("export JAVA_HOME=" + jvmPath);
+			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+			terminal.sendText("cd " + str);
+			if (fs.existsSync(tomcatWorkspace)) {
+				terminal.sendText("mvn install");
+				terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
+			}
+			else{
+				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			}
+		}
+		else{
+			vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
+		}
+	});
+	context.subscriptions.push(refresh);
 
 	let deploy = vscode.commands.registerCommand('duc.deploy', async () => {
 		let slotNum = await vscode.window.showInputBox({
 			placeHolder: "Slot number",
 			prompt: "Slot number",
 		  });
-		if(slotNum == ""){
+		if(slotNum === ""){
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
 			return ;
 		}
@@ -61,7 +116,7 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("export JAVA_HOME=" + jvmPath);
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			terminal.sendText("cd " + str);
-			terminal.sendText("mvn deploy");	
+			terminal.sendText("mvn deploy");
 		}
 		else{
 			vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
@@ -74,7 +129,7 @@ export function activate(context: vscode.ExtensionContext) {
 			placeHolder: "Slot number",
 			prompt: "Slot number",
 		  });
-		if(slotNum == ""){
+		if(slotNum === ""){
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
 			return ;
 		}
@@ -97,6 +152,14 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("cd " + str);
 			terminal.sendText("mvn frontend:webpack");
 			terminal.sendText("mvn antrun:run");
+			if (fs.existsSync(tomcatWorkspace)) {
+				if(workspace.workspaceFolders){
+					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+				}
+			}
+			else{
+				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			}
 		}
 		else{
 			vscode.window.showErrorMessage("해당 경로에 UI 프로젝트 폴더가 없습니다.");
@@ -109,7 +172,7 @@ export function activate(context: vscode.ExtensionContext) {
 			placeHolder: "Slot number",
 			prompt: "Slot number",
 		  });
-		if(slotNum == ""){
+		if(slotNum === ""){
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
 			return ;
 		}
@@ -125,12 +188,18 @@ export function activate(context: vscode.ExtensionContext) {
 				hideFromUser: false,
 			});
 			terminal.show();
-			terminal.sendText("export GRADLE_HOME=" + gradlePath);
-			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
 			terminal.sendText("export JAVA_HOME=" + jvmPath);
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			terminal.sendText("cd " + str);
-			terminal.sendText("gradle deployCdnAnimateSlot");
+			terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
+			if (fs.existsSync(tomcatWorkspace)) {
+				if(workspace.workspaceFolders){
+					terminal.sendText("cp -r " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+				}
+			}
+			else{
+				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+			}
 		}
 		else{
 			vscode.window.showErrorMessage("해당 경로에 UI 프로젝트 폴더가 없습니다.");
@@ -155,7 +224,7 @@ export function deactivate() {}
 	// 		prompt: "Slot number",
 	// 		value: slotNum
 	// 	  });
-	// 	if(slotNum == ""){
+	// 	if(slotNum === ""){
 	// 		vscode.window.showErrorMessage("해당 프로젝트가 존재하지 않습니다.");
 	// 		return ;
 	// 	}

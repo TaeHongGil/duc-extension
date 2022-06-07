@@ -19,13 +19,14 @@
 		"onCommand:duc.gradleTask",
 		"onCommand:duc.viewContainer",
 		"onCommand:duc.webpack",
+		"onCommand:duc.refresh",
+		"onCommand:duc.serverstop",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
 		"onCommand:fileExplorer.webpack",
 		"onCommand:fileExplorer.refreshFile",
-		"onCommand:fileExplorer.updateAll",
-		"onCommand:fileExplorer.update"
+		"onCommand:fileExplorer.updateAll"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -68,6 +69,16 @@
 						"description": "Gradle 2.14.1 경로"
 					}
 				}
+			},
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.serverName": {
+						"type": "string",
+						"default": "",
+						"description": "Tomcat Server Name"
+					}
+				}
 			}
 		],
 		"commands": [
@@ -88,10 +99,6 @@
 				"title": "Maven Update All"
 			},
 			{
-				"command": "fileExplorer.update",
-				"title": "Maven Update"
-			},
-			{
 				"command": "fileExplorer.deploy",
 				"title": "Maven Deploy"
 			},
@@ -109,8 +116,13 @@
 				"category": "DUC"
 			},
 			{
-				"command": "duc.install",
-				"title": "Maven Install",
+				"command": "duc.serverstop",
+				"title": "Server Force Stop",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.refresh",
+				"title": "Local Simulation Refresh",
 				"category": "DUC"
 			},
 			{
@@ -141,11 +153,6 @@
 			"view/item/context": [
 				{
 					"command": "fileExplorer.install",
-					"group": "3_compare",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.update",
 					"group": "3_compare",
 					"when": "view == nodeDependencies && viewItem == entry"
 				},
