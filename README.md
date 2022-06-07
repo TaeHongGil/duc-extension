@@ -5,6 +5,12 @@ https://www.notion.so/DUC-Extenstion-1cb22d9bf25340308b682f22fa2df918
 참고 
 
 # Release Notes
-0.0.1 - 기본 기능 추가
+### 0.0.3
+- webpack, gradle task 사용 시 업데이트된 파일만 복사하도록 수정
+- Update All 사용 시 dug-cdn-web 리소스 삭제하도록 수정
 
-0.0.2 - 톰캣 사용가능하게 수정
+### 0.0.2 
+- 톰캣 사용가능하게 수정
+
+### 0.0.1
+- 기본 기능 추가
