@@ -334,7 +334,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			let folder = ["duc-api-web", "duc-simulation-web", "dug-cdn-web"];
 			let str = "";
-			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources/*");
+			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources");
 			for (let index = 0; index < folder.length; index++) {
 				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
 				terminal.sendText("cd " + str);
