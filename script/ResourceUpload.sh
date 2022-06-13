@@ -82,6 +82,16 @@ fi
 mv $folderPath ~/Desktop/resource_backup/
 mv ~/Desktop/resource_backup/$folderName ~/Desktop/resource_backup/$folderName\_$date
 size=$(7z x -y $folderName.zip | grep -A 2 "Size\:")
+unzip=$(echo "$size" | awk 'NR==1 {print $2}')
+if [ $unzip -ge 50000000 ]; then
+  echo "
+  
+  Check Resource Folder Size
+  
+  "
+  rm $folderName.zip
+  exit
+fi
 
 sftp -oPort=7302 $sftpServer <<EOF
 cd $sftpPath

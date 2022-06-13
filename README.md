@@ -16,15 +16,19 @@ Maven Update All
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
-## 0.0.4
+## 0.0.51
+- 모바일 리소스 업로드 수정
+## 0.0.50
+- 모바일 리소스 업로드 추가
+## 0.0.40
 - 아이콘 수정
   
-## 0.0.3
+## 0.0.30
 - webpack, gradle task 사용 시 업데이트된 파일만 복사하도록 수정
 - Update All 사용 시 dug-cdn-web 리소스 삭제하도록 수정
   
-## 0.0.2 
+## 0.0.20
 - 톰캣 사용가능하게 수정
   
-## 0.0.1
+## 0.0.10
 - 기본 기능 추가

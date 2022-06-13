@@ -61,14 +61,18 @@ export function activate(context: vscode.ExtensionContext) {
 			placeHolder: "Slot number",
 			prompt: "Slot number",
 		});
-		const slotNumber: number = Math.floor(+slotNum / 50) * 50;
-
-		let terminal = vscode.window.createTerminal({
-			name: "Resource Upload",
-			hideFromUser: false
-		});
-		terminal.show();
-		terminal.sendText("bash " + context.extensionPath + "/script/ResourceUpload.sh " + forderName + " " + forderPath + " " + version + " " + slotNumber + " ")
+		const slotNumber: number = Math.floor(+slotNum / 50) * 50 | 0;
+		if (forderName.length > 0 && forderPath.length > 0 && version.length > 0 && slotNumber > 0) {
+			let terminal = vscode.window.createTerminal({
+				name: "Resource Upload",
+				hideFromUser: false
+			});
+			terminal.show();
+			terminal.sendText("bash " + context.extensionPath + "/script/ResourceUpload.sh " + forderName + " " + forderPath + " " + version + " " + slotNumber + " ")
+		}
+		else {
+			vscode.window.showErrorMessage("다시 입력해주세요.");
+		}
 	});
 	context.subscriptions.push(resourceUpload);
 
