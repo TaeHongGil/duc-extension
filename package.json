@@ -25,6 +25,7 @@
 		"onCommand:duc.webpack",
 		"onCommand:duc.refresh",
 		"onCommand:duc.serverstop",
+		"onCommand:duc.resourceUpload",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
@@ -122,6 +123,11 @@
 			{
 				"command": "duc.serverstop",
 				"title": "Server Force Stop",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.resourceUpload",
+				"title": "Mobile Resource Upload",
 				"category": "DUC"
 			},
 			{

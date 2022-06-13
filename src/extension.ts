@@ -11,7 +11,7 @@ const DUC = workspace.getConfiguration("DUC");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
 const tomcatPath = Tomcat.get("workspace");
-const tomcatWorkspace = tomcatPath + "/" +tomcatServerName;
+const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
 const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
@@ -21,10 +21,10 @@ const regExpUi = /duc\-ui\-slot\-[0-9]/;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	
+
 
 	const rootPath = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0
-		? vscode.workspace.workspaceFolders[0].uri.fsPath: "";
+		? vscode.workspace.workspaceFolders[0].uri.fsPath : "";
 	const treeDataProvider = new FileSystemProvider();
 	vscode.window.registerTreeDataProvider('nodeDependencies', treeDataProvider);
 	vscode.commands.registerCommand('fileExplorer.openFile', (resource) => openResource(resource));
@@ -38,7 +38,40 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let str = "";
 	let strArray = new Array;
-	
+	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => {
+		// vscode.window.showErrorMessage(context.extensionPath);
+
+		const resourceFoler = await vscode.window.showOpenDialog({
+			filters: {
+				'All files (*.*)': ['*']
+			},
+			canSelectFolders: true,
+			canSelectFiles: false,
+			canSelectMany: false,
+			openLabel: 'Select Resource Folder',
+		});
+		if (!resourceFoler || resourceFoler.length < 1) {
+			return;
+		}
+		let path = resourceFoler[0].fsPath.split('/');
+		const forderName = path[path.length - 1];
+		const forderPath = resourceFoler[0].fsPath;
+		const version = await vscode.window.showQuickPick(['ver_1', 'ver_2'], { placeHolder: 'Select Version' });
+		let slotNum = await vscode.window.showInputBox({
+			placeHolder: "Slot number",
+			prompt: "Slot number",
+		});
+		const slotNumber: number = Math.floor(+slotNum / 50) * 50;
+
+		let terminal = vscode.window.createTerminal({
+			name: "Resource Upload",
+			hideFromUser: false
+		});
+		terminal.show();
+		terminal.sendText("bash " + context.extensionPath + "/script/ResourceUpload.sh " + forderName + " " + forderPath + " " + version + " " + slotNumber + " ")
+	});
+	context.subscriptions.push(resourceUpload);
+
 	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => {
 		let terminal = vscode.window.createTerminal({
 			name: "Tomcat Force Stop",
@@ -54,15 +87,15 @@ export function activate(context: vscode.ExtensionContext) {
 		let slotNum = await vscode.window.showInputBox({
 			placeHolder: "Slot number",
 			prompt: "Slot number",
-		  });
-		if(slotNum === ""){
+		});
+		if (slotNum === "") {
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
-			return ;
+			return;
 		}
-		if(utils.settingCheck()){
-			return ;
+		if (utils.settingCheck()) {
+			return;
 		}
-		if(workspace.workspaceFolders){
+		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
 		}
 		if (fs.existsSync(str)) {
@@ -80,11 +113,11 @@ export function activate(context: vscode.ExtensionContext) {
 				terminal.sendText("mvn install");
 				terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
 			}
-			else{
+			else {
 				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
 			}
 		}
-		else{
+		else {
 			vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
 		}
 	});
@@ -94,15 +127,15 @@ export function activate(context: vscode.ExtensionContext) {
 		let slotNum = await vscode.window.showInputBox({
 			placeHolder: "Slot number",
 			prompt: "Slot number",
-		  });
-		if(slotNum === ""){
+		});
+		if (slotNum === "") {
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
-			return ;
+			return;
 		}
-		if(utils.settingCheck()){
-			return ;
+		if (utils.settingCheck()) {
+			return;
 		}
-		if(workspace.workspaceFolders){
+		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
 		}
 		if (fs.existsSync(str)) {
@@ -118,7 +151,7 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("cd " + str);
 			terminal.sendText("mvn deploy");
 		}
-		else{
+		else {
 			vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
 		}
 	});
@@ -128,15 +161,15 @@ export function activate(context: vscode.ExtensionContext) {
 		let slotNum = await vscode.window.showInputBox({
 			placeHolder: "Slot number",
 			prompt: "Slot number",
-		  });
-		if(slotNum === ""){
+		});
+		if (slotNum === "") {
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
-			return ;
+			return;
 		}
-		if(utils.settingCheck()){
-			return ;
+		if (utils.settingCheck()) {
+			return;
 		}
-		if(workspace.workspaceFolders){
+		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-ui-slot-" + slotNum;
 		}
 		if (fs.existsSync(str)) {
@@ -153,15 +186,15 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("mvn frontend:webpack");
 			terminal.sendText("mvn antrun:run");
 			if (fs.existsSync(tomcatWorkspace)) {
-				if(workspace.workspaceFolders){
+				if (workspace.workspaceFolders) {
 					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
-			else{
+			else {
 				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
 			}
 		}
-		else{
+		else {
 			vscode.window.showErrorMessage("해당 경로에 UI 프로젝트 폴더가 없습니다.");
 		}
 	});
@@ -171,15 +204,15 @@ export function activate(context: vscode.ExtensionContext) {
 		let slotNum = await vscode.window.showInputBox({
 			placeHolder: "Slot number",
 			prompt: "Slot number",
-		  });
-		if(slotNum === ""){
+		});
+		if (slotNum === "") {
 			vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
-			return ;
+			return;
 		}
-		if(utils.settingCheck()){
-			return ;
+		if (utils.settingCheck()) {
+			return;
 		}
-		if(workspace.workspaceFolders){
+		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-ui-slot-" + slotNum;
 		}
 		if (fs.existsSync(str)) {
@@ -193,15 +226,15 @@ export function activate(context: vscode.ExtensionContext) {
 			terminal.sendText("cd " + str);
 			terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
 			if (fs.existsSync(tomcatWorkspace)) {
-				if(workspace.workspaceFolders){
+				if (workspace.workspaceFolders) {
 					terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
 				}
 			}
-			else{
+			else {
 				vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
 			}
 		}
-		else{
+		else {
 			vscode.window.showErrorMessage("해당 경로에 UI 프로젝트 폴더가 없습니다.");
 		}
 	});
@@ -213,7 +246,7 @@ function openResource(resource: vscode.Uri): void {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
 
 	// let install = vscode.commands.registerTextEditorCommand('duc.install', async () => {
