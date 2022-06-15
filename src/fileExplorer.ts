@@ -12,6 +12,7 @@ const tomcatPath = Tomcat.get("workspace");
 const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
+const directoryArray = DUC.get('directoryArray', "");
 const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
 const regExpUi = /duc\-ui\-slot\-[0-9]/;
 
@@ -288,16 +289,31 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 			const workspaceFolder = workspace.workspaceFolders[0];
 			if (workspaceFolder) {
+				let array = directoryArray.split(",");
 				let children = await this.readDirectory(workspaceFolder.uri);
 				children = children.filter(array => array[1] === vscode.FileType.Directory);
-				children = children.filter(array => (array[0].indexOf("dug\-") >= 0 || array[0].indexOf("duc\-") >= 0));
-				children.sort((a, b) => {
+				// children = children.filter(array => (array[0].indexOf("dug\-") >= 0 || array[0].indexOf("duc\-") >= 0));
+				
+				let childrenTemp: [string, vscode.FileType][] = [];
+				array.forEach(element => {
+					if(element === ''){
+						return;
+					}
+					let str = element + "\-";
+					for (let index = 0; index < children.length; index++) {
+						const folderName = children[index][0];
+						if(folderName.indexOf(element + "\-") >= 0){
+							childrenTemp.push(children[index]);
+						}
+					}
+				});
+				childrenTemp.sort((a, b) => {
 					if (a[1] === b[1]) {
 						return a[0].localeCompare(b[0]);
 					}
 					return a[1] === vscode.FileType.Directory ? -1 : 1;
 				});
-				return children.map(([name, type]) => (
+				return childrenTemp.map(([name, type]) => (
 					{ uri: name }
 				));
 			}

@@ -1,8 +1,6 @@
 
 import * as vscode from 'vscode';
-import * as path from 'path';
 import * as fs from 'fs';
-import * as rimraf from 'rimraf';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
@@ -11,9 +9,16 @@ const gradlePath = DUC.get('gradlePath', "");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
 const tomcatPath = Tomcat.get("workspace");
-const tomcatWorkspace = tomcatPath + tomcatServerName;
-const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
-const regExpUi = /duc\-ui\-slot\-[0-9]/;
+
+export function serverStop() {
+	let terminal = vscode.window.createTerminal({
+		name: "Tomcat Force Stop",
+		hideFromUser: false,
+	});
+	terminal.show();
+	terminal.sendText("RESULT=$(lsof -i :8080 | awk 'NR==2 {print $2}')");
+	terminal.sendText("kill $RESULT");
+}
 
 export function settingCheck() {
 	if(jvmPath === ''){
