@@ -80,7 +80,17 @@
 			{
 				"title": "DUC",
 				"properties": {
-					"DUC.directoryArray": {
+					"DUC.serverHome": {
+						"type": "string",
+						"default": "",
+						"description": "vscode 1.68.0 버전 이후 사용"
+					}
+				}
+			},
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.directorySetting": {
 						"type": "string",
 						"default": "duc,dug,",
 						"description": "Directory 검색 설정"
@@ -138,18 +148,18 @@
 				"category": "DUC"
 			},
 			{
-				"command": "duc.resourceUpload",
+				"command": "duc.resceUpload",
 				"title": "Mobile Resource Upload",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.createSimul",
-				"title": "Create Simulation Maven Project ",
+				"title": "Create Simulation Project ",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.createUi",
-				"title": "Create Ui Maven Project",
+				"title": "Create Ui Project",
 				"category": "DUC"
 			},
 			{
@@ -242,5 +252,8 @@
 		"typescript": "^4.5.5",
 		"webpack": "^5.69.1",
 		"webpack-cli": "^4.9.2"
+	},
+	"dependencies": {
+		"date-and-time": "^2.3.1"
 	}
 }

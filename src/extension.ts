@@ -5,17 +5,6 @@ import { FileSystemProvider, Entry } from './fileExplorer';
 import * as utils from './funtion';
 import * as mobile from './mobile';
 import * as maven from './maven';
-import * as fs from 'fs';
-
-const workspace = vscode.workspace;
-const DUC = workspace.getConfiguration("DUC");
-const Tomcat = workspace.getConfiguration("tomcat");
-const tomcatServerName = DUC.get('serverName', "");
-const tomcatPath = Tomcat.get("workspace");
-const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
-const jvmPath = DUC.get('jvmPath', "");
-const gradlePath = DUC.get('gradlePath', "");
-
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -37,8 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => mobile.resourceUpload(context));
 	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => utils.serverStop());
-	let createSimul = vscode.commands.registerCommand('duc.createSimul', async () => maven.createSimul(context));
-	let createUi = vscode.commands.registerCommand('duc.createUi', async () => maven.createSimul(context));
+	let createSimul = vscode.commands.registerCommand('duc.createSimul', async () => maven.createSimul());
+	let createUi = vscode.commands.registerCommand('duc.createUi', async () => maven.createUi());
 	let refresh = vscode.commands.registerCommand('duc.refresh', async () => maven.refresh());
 	let deploy = vscode.commands.registerCommand('duc.deploy', async () => maven.deploy());
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());

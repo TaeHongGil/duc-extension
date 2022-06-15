@@ -16,6 +16,10 @@ Maven Update All
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.60
+- directory 폴더 설정 추가 (duc: Directory Setting)
+- vscode 1.68.0 버전 tomcat 이슈 대응
+- duc simulation, ui 프로젝트 생성기능 추가
 ## 0.0.51
 - 모바일 리소스 업로드 수정
 ## 0.0.50

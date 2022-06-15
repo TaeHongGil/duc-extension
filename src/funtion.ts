@@ -9,6 +9,11 @@ const gradlePath = DUC.get('gradlePath', "");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
 const tomcatPath = Tomcat.get("workspace");
+const serverHome: string = DUC.get("serverHome");
+let tomcatWorkspace: string = tomcatPath + "/" + tomcatServerName;
+if(serverHome !== ""){
+	tomcatWorkspace = serverHome;
+}
 
 export function serverStop() {
 	let terminal = vscode.window.createTerminal({
@@ -40,14 +45,6 @@ export function settingCheck() {
 			vscode.window.showErrorMessage("Gradle 2.14 폴더가 없습니다.");
 			return true;
 		}
-	}
-	if(tomcatPath === ''){
-		vscode.window.showErrorMessage("Tomcat Workspace를 찾을 수 없습니다.");
-		return true;
-	}
-	if(tomcatServerName === ''){
-		vscode.window.showErrorMessage("Tomcat Server Name을 찾을 수 없습니다.");
-		return true;
 	}
 	return false;
 }

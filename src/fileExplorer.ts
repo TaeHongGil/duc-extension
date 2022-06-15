@@ -9,13 +9,16 @@ const DUC = workspace.getConfiguration("DUC");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
 const tomcatPath = Tomcat.get("workspace");
-const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
-const directoryArray = DUC.get('directoryArray', "");
+const directorySetting = DUC.get('directorySetting', "");
 const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
 const regExpUi = /duc\-ui\-slot\-[0-9]/;
-
+const serverHome: string = DUC.get("serverHome");
+let tomcatWorkspace: string = tomcatPath + "/" + tomcatServerName;
+if(serverHome !== ""){
+	tomcatWorkspace = serverHome;
+}
 namespace _ {
 
 	function handleResult<T>(resolve: (result: T) => void, reject: (error: Error) => void, error: Error | null | undefined, result: T): void {
@@ -289,7 +292,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 			const workspaceFolder = workspace.workspaceFolders[0];
 			if (workspaceFolder) {
-				let array = directoryArray.split(",");
+				let array = directorySetting.split(",");
 				let children = await this.readDirectory(workspaceFolder.uri);
 				children = children.filter(array => array[1] === vscode.FileType.Directory);
 				// children = children.filter(array => (array[0].indexOf("dug\-") >= 0 || array[0].indexOf("duc\-") >= 0));
@@ -353,12 +356,17 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			let folder = ["duc-api-web", "duc-simulation-web", "dug-cdn-web"];
 			let str = "";
 			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources");
+
 			for (let index = 0; index < folder.length; index++) {
+				let terminalTemp = vscode.window.createTerminal({
+					name: "Maven Update All",
+					hideFromUser: false,
+				});
 				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
-				terminal.sendText("cd " + str);
-				terminal.sendText("mvn clean install -U");
-				terminal.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);
-				terminal.sendText("cp -r " + str + "/target/" + folder[index] + " " + tomcatWorkspace + "/webapps/");
+				terminalTemp.sendText("cd " + str);
+				terminalTemp.sendText("mvn clean install -U");
+				terminalTemp.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);
+				terminalTemp.sendText("cp -r " + str + "/target/" + folder[index] + " " + tomcatWorkspace + "/webapps/");
 			}
 			// let arrry = this.getChildren();
 			// arrry.then(result => {

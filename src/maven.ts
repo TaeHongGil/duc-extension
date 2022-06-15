@@ -4,24 +4,37 @@ import * as vscode from 'vscode';
 import * as utils from './funtion';
 import * as fs from 'fs';
 import * as os from 'os';
+import * as date from 'date-and-time';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
 const tomcatPath = Tomcat.get("workspace");
-const tomcatWorkspace = tomcatPath + "/" + tomcatServerName;
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
+const serverHome: string = DUC.get("serverHome");
+let tomcatWorkspace: string = tomcatPath + "/" + tomcatServerName;
+if (serverHome !== "") {
+    tomcatWorkspace = serverHome;
+}
 
-export async function createSimul(context: vscode.ExtensionContext) {
+export async function createSimul() {
     // curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml
     let home = os.homedir() + "/.m2/repository";
-    if(!fs.existsSync(home)){
-        vscode.window.showErrorMessage(home +" 폴더가 존재하지않습니다.");
+    if (!fs.existsSync(home)) {
+        vscode.window.showErrorMessage(home + " 폴더가 존재하지않습니다.");
         return;
     }
-    let slotNum = 999;
+    let slotNum = await vscode.window.showInputBox({
+        placeHolder: "Slot number",
+        prompt: "Slot number",
+    });
+    const regExp = /[0-9]/;
+    if (!regExp.test(slotNum)) {
+        vscode.window.showErrorMessage("다시 입력해주세요");
+        return;
+    }
     let terminal = vscode.window.createTerminal({
         name: "Create Siulation Project",
         hideFromUser: false,
@@ -36,15 +49,62 @@ export async function createSimul(context: vscode.ExtensionContext) {
 -DarchetypeVersion=\"2.0.0.51\" \
 -DgroupId=\"com.doubleugames.dug.duc\" \
 -Dpackage=\"com.doubleugames.dug.duc\" \
--DartifactId=\"duc-simulation-slot-"+ slotNum +"\" \
+-DartifactId=\"duc-simulation-slot-"+ slotNum + "\" \
 -Dversion=\"2.0.0.00\" \
--Dslotname=\""+slotNum+"\" \
--Dsimulcorever=\"2.0.0.19\" \
--Dslotnumber=\""+slotNum+"\" \
+-Dslotname=\""+ slotNum + "\" \
+-Dsimulcorever=\"2.0.0.20-SNAPSHOT\" \
+-Dslotnumber=\""+ slotNum + "\" \
 ");
 }
-export async function createUi(context: vscode.ExtensionContext) {
+
+export async function createUi() {
     // curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml
+    let home = os.homedir() + "/.m2/repository";
+    if (!fs.existsSync(home)) {
+        vscode.window.showErrorMessage(home + " 폴더가 존재하지않습니다.");
+        return;
+    }
+    let slotNum = await vscode.window.showInputBox({
+        placeHolder: "Slot number",
+        prompt: "Slot number",
+    });
+    const regExp = /[0-9]/;
+    if (!regExp.test(slotNum)) {
+        vscode.window.showErrorMessage("다시 입력해주세요");
+        return;
+    }
+    let slotName = await vscode.window.showInputBox({
+        placeHolder: "Slot Name",
+        prompt: "Slot Name",
+    });
+    if (slotName === "") {
+        vscode.window.showErrorMessage("다시 입력해주세요");
+        return;
+    }
+    let slotClassName = "CSlot" + slotNum + slotName.replace(" ", "");
+    let terminal = vscode.window.createTerminal({
+        name: "Create Siulation Project",
+        hideFromUser: false,
+    });
+    let now = new Date();
+    let time = date.format(now, 'YYYY.MM.DD');
+    terminal.show();
+    terminal.sendText("cd " + home);
+    terminal.sendText("curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml");
+    terminal.sendText("cd " + workspace.workspaceFolders[0].uri.fsPath);
+    terminal.sendText("mvn org.apache.maven.plugins:maven-archetype-plugin:3.1.2:generate \
+-DarchetypeArtifactId=\"duc-archetype-ui-slot\" \
+-DarchetypeGroupId=\"com.doubleugames.dug.duc\" \
+-DarchetypeVersion=\"2.0.0.20\" \
+-DgroupId=\"com.doubleugames.dug.duc\" \
+-Dpackage=\"com.doubleugames.dug.duc\" \
+-DartifactId=\"duc-ui-slot-"+ slotNum + "\" \
+-Dversion=\"2.0.0.00\" \
+-DslotType=\""+ slotNum + "\" \
+-DslotName=\""+ slotName + "\" \
+-DslotClassName=\""+ slotClassName + "\" \
+-DcurrentDate=\""+ time + "\" \
+");
 }
 
 export async function refresh() {
@@ -97,7 +157,7 @@ export async function deploy() {
     if (utils.settingCheck()) {
         return;
     }
-        str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
+    str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
     if (fs.existsSync(str)) {
         let terminal = vscode.window.createTerminal({
             name: "Simulation Deploy",
