@@ -348,12 +348,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				name: "Maven Update All",
 				hideFromUser: false,
 			});
-			terminal.show();
 			terminal.sendText("export GRADLE_HOME=" + gradlePath);
 			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
 			terminal.sendText("export JAVA_HOME=" + jvmPath);
 			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
-			let folder = ["duc-api-web", "duc-simulation-web", "dug-cdn-web"];
+			let folder = ["duc-api-web", "dug-cdn-web", "duc-simulation-web"];
 			let str = "";
 			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources");
 
@@ -363,6 +362,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 					hideFromUser: false,
 				});
 				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
+				terminalTemp.show();
+				terminalTemp.sendText("export GRADLE_HOME=" + gradlePath);
+				terminalTemp.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
+				terminalTemp.sendText("export JAVA_HOME=" + jvmPath);
+				terminalTemp.sendText("export PATH=${PATH}:$JAVA_HOME/bin");	
 				terminalTemp.sendText("cd " + str);
 				terminalTemp.sendText("mvn clean install -U");
 				terminalTemp.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);

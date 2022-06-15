@@ -16,6 +16,8 @@ Maven Update All
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.62
+- Update All 에러수정
 ## 0.0.61
 - 리소스 업로드 에러수정
 ## 0.0.60
