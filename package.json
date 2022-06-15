@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.51",
+	"version": "0.0.60",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -26,6 +26,8 @@
 		"onCommand:duc.refresh",
 		"onCommand:duc.serverstop",
 		"onCommand:duc.resourceUpload",
+		"onCommand:duc.createSimul",
+		"onCommand:duc.createUi",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
@@ -72,6 +74,16 @@
 						"type": "string",
 						"default": "",
 						"description": "Gradle 2.14.1 경로"
+					}
+				}
+			},
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.directoryArray": {
+						"type": "string",
+						"default": "duc,dug,",
+						"description": "Directory 검색 설정"
 					}
 				}
 			},
@@ -128,6 +140,16 @@
 			{
 				"command": "duc.resourceUpload",
 				"title": "Mobile Resource Upload",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.createSimul",
+				"title": "Create Simulation Maven Project ",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.createUi",
+				"title": "Create Ui Maven Project",
 				"category": "DUC"
 			},
 			{
