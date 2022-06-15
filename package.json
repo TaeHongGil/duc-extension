@@ -169,8 +169,7 @@
 			}
 		],
 		"menus": {
-			"commandPalette": [
-			],
+			"commandPalette": [],
 			"view/title": [
 				{
 					"command": "fileExplorer.refreshFile",

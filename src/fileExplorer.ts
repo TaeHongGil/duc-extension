@@ -304,6 +304,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 						const folderName = children[index][0];
 						if(folderName.indexOf(element + "\-") >= 0){
 							childrenTemp.push(children[index]);
+							children.splice(index,1);
+							index--;
 						}
 					}
 				});

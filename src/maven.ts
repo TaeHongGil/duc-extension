@@ -1,11 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { FileSystemProvider, Entry } from './fileExplorer';
 import * as utils from './funtion';
-import * as mobile from './mobile';
-import * as maven from './maven';
 import * as fs from 'fs';
+import * as os from 'os';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
@@ -18,6 +16,32 @@ const gradlePath = DUC.get('gradlePath', "");
 
 export async function createSimul(context: vscode.ExtensionContext) {
     // curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml
+    let home = os.homedir() + "/.m2/repository";
+    if(!fs.existsSync(home)){
+        vscode.window.showErrorMessage(home +" 폴더가 존재하지않습니다.");
+        return;
+    }
+    let slotNum = 999;
+    let terminal = vscode.window.createTerminal({
+        name: "Create Siulation Project",
+        hideFromUser: false,
+    });
+    terminal.show();
+    terminal.sendText("cd " + home);
+    terminal.sendText("curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml");
+    terminal.sendText("cd " + workspace.workspaceFolders[0].uri.fsPath);
+    terminal.sendText("mvn org.apache.maven.plugins:maven-archetype-plugin:3.1.2:generate \
+-DarchetypeArtifactId=\"duc-simulation-arch\" \
+-DarchetypeGroupId=\"com.doubleugames.dug\" \
+-DarchetypeVersion=\"2.0.0.51\" \
+-DgroupId=\"com.doubleugames.dug.duc\" \
+-Dpackage=\"com.doubleugames.dug.duc\" \
+-DartifactId=\"duc-simulation-slot-"+ slotNum +"\" \
+-Dversion=\"2.0.0.00\" \
+-Dslotname=\""+slotNum+"\" \
+-Dsimulcorever=\"2.0.0.19\" \
+-Dslotnumber=\""+slotNum+"\" \
+");
 }
 export async function createUi(context: vscode.ExtensionContext) {
     // curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml
