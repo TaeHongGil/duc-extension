@@ -148,7 +148,7 @@
 				"category": "DUC"
 			},
 			{
-				"command": "duc.resceUpload",
+				"command": "duc.resourceUpload",
 				"title": "Mobile Resource Upload",
 				"category": "DUC"
 			},
