@@ -11,11 +11,22 @@ Simulation Deploy - 시뮬 deploy
 
 Maven Install
 
-Maven Update All
+Mobile Resource Upload - 모바일 리소스 업로드(ftp) 50MB까지
+
+Create Ui Project - 슬롯넘버, 슬롯이름 입력필요 ex) 356, Golden Jungle Safari
+
+Create Simulation Project - 슬롯넘버 입력 필요
+
+Maven Update All For DUC - DUC 서버구동에 필요한 폴더들 update 후 톰캣에 업로드
+
+Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드 
+
 # 사용 방법
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.63
+- update 추가 
 ## 0.0.62
 - Update All 에러수정
 ## 0.0.61

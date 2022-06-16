@@ -337,7 +337,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		};
 	}
 
-	updateAll() {
+	updateAllForDuc() {
 		if (!fs.existsSync(tomcatWorkspace)) {
 			vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
 			return;
@@ -348,10 +348,6 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				name: "Maven Update All",
 				hideFromUser: false,
 			});
-			terminal.sendText("export GRADLE_HOME=" + gradlePath);
-			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-			terminal.sendText("export JAVA_HOME=" + jvmPath);
-			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 			let folder = ["duc-api-web", "dug-cdn-web", "duc-simulation-web"];
 			let str = "";
 			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources");
@@ -409,6 +405,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 		terminal.sendText("cd " + str);
 		terminal.sendText("mvn clean install -U");
+		terminal.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + node.uri);
+		terminal.sendText("cp -r " + str + "/target/" + node.uri + " " + tomcatWorkspace + "/webapps/");
 	}
 
 	deploy(node: Entry) {

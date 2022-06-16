@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.62",
+	"version": "0.0.63",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -32,8 +32,9 @@
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
 		"onCommand:fileExplorer.webpack",
+		"onCommand:fileExplorer.update",
 		"onCommand:fileExplorer.refreshFile",
-		"onCommand:fileExplorer.updateAll"
+		"onCommand:fileExplorer.updateAllForDuc"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -41,7 +42,7 @@
 			"activitybar": [
 				{
 					"id": "package-explorer",
-					"title": "DUC Directory",
+					"title": "DUG",
 					"icon": "resources/dug_view.png"
 				}
 			]
@@ -50,7 +51,7 @@
 			"package-explorer": [
 				{
 					"id": "nodeDependencies",
-					"name": "",
+					"name": "DUG Directory",
 					"icon": "media/dep.svg",
 					"contextualTitle": "Package Explorer"
 				}
@@ -122,8 +123,12 @@
 				"title": "Maven Install"
 			},
 			{
-				"command": "fileExplorer.updateAll",
-				"title": "Maven Update All"
+				"command": "fileExplorer.updateAllForDuc",
+				"title": "Maven Update All For DUC"
+			},
+			{
+				"command": "fileExplorer.update",
+				"title": "Maven Update"
 			},
 			{
 				"command": "fileExplorer.deploy",
@@ -187,7 +192,7 @@
 					"group": "navigation"
 				},
 				{
-					"command": "fileExplorer.updateAll",
+					"command": "fileExplorer.updateAllForDuc",
 					"when": "view == nodeDependencies"
 				}
 			],
@@ -198,7 +203,7 @@
 					"when": "view == nodeDependencies && viewItem == entry"
 				},
 				{
-					"command": "fileExplorer.updateAll",
+					"command": "fileExplorer.update",
 					"group": "3_compare",
 					"when": "view == nodeDependencies && viewItem == entry"
 				},

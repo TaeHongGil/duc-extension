@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerTreeDataProvider('nodeDependencies', treeDataProvider);
 	vscode.commands.registerCommand('fileExplorer.openFile', (resource) => openResource(resource));
 	vscode.commands.registerCommand('fileExplorer.refreshFile', () => treeDataProvider.refresh());
-	vscode.commands.registerCommand('fileExplorer.updateAll', () => treeDataProvider.updateAll());
+	vscode.commands.registerCommand('fileExplorer.updateAllForDuc', () => treeDataProvider.updateAllForDuc());
 	vscode.commands.registerCommand('fileExplorer.update', (node: Entry) => treeDataProvider.update(node));
 	vscode.commands.registerCommand('fileExplorer.deploy', (node: Entry) => treeDataProvider.deploy(node));
 	vscode.commands.registerCommand('fileExplorer.gradleTask', (node: Entry) => treeDataProvider.gradleTask(node));
