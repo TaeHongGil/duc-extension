@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.63",
+	"version": "0.0.64",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -26,6 +26,7 @@
 		"onCommand:duc.refresh",
 		"onCommand:duc.serverstop",
 		"onCommand:duc.resourceUpload",
+		"onCommand:duc.crashCheck",
 		"onCommand:duc.createSimul",
 		"onCommand:duc.createUi",
 		"onCommand:fileExplorer.deploy",
@@ -65,6 +66,16 @@
 						"type": "string",
 						"default": "",
 						"description": "JVM 8 Home 경로"
+					}
+				}
+			},
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.ndkPath": {
+						"type": "string",
+						"default": "",
+						"description": "NDK Path"
 					}
 				}
 			},
@@ -145,6 +156,11 @@
 			{
 				"command": "duc.deploy",
 				"title": "Simulation Deploy",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.crashCheck",
+				"title": "Mobile Crash Check",
 				"category": "DUC"
 			},
 			{

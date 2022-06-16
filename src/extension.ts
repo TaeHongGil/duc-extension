@@ -25,6 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('fileExplorer.install', (node: Entry) => treeDataProvider.install(node));
 
 	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => mobile.resourceUpload(context));
+	let crashCehck = vscode.commands.registerCommand('duc.crashCheck', async () => mobile.crashCehck(context));
 	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => utils.serverStop());
 	let createSimul = vscode.commands.registerCommand('duc.createSimul', async () => maven.createSimul());
 	let createUi = vscode.commands.registerCommand('duc.createUi', async () => maven.createUi());
@@ -33,6 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
 	
+	context.subscriptions.push(crashCehck);
 	context.subscriptions.push(resourceUpload);
 	context.subscriptions.push(serverStop);
 	context.subscriptions.push(createSimul);
