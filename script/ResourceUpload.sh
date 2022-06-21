@@ -2,7 +2,7 @@
 folderName=$1
 folderPath=$2
 version=$3
-date=$(date +%d%일%M분%S초)
+date=$(date +%d%일%H시%M분%S초)
 slotNum=$4
 ############ sftp 정보
 sftpServer=ec2-user@duc-dev.doubleugames.com
