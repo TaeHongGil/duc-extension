@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => utils.serverStop());
 	let createSimul = vscode.commands.registerCommand('duc.createSimul', async () => maven.createSimul());
 	let createUi = vscode.commands.registerCommand('duc.createUi', async () => maven.createUi());
-	let refresh = vscode.commands.registerCommand('duc.refresh', async () => maven.refresh());
+	// let refresh = vscode.commands.registerCommand('duc.refresh', async () => maven.refresh());
 	let deploy = vscode.commands.registerCommand('duc.deploy', async () => maven.deploy());
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(serverStop);
 	context.subscriptions.push(createSimul);
 	context.subscriptions.push(createUi);
-	context.subscriptions.push(refresh);
+	// context.subscriptions.push(refresh);
 	context.subscriptions.push(deploy);
 	context.subscriptions.push(webpack);
 	context.subscriptions.push(gradleTask);
