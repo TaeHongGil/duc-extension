@@ -15,16 +15,6 @@ if(serverHome !== ""){
 	tomcatWorkspace = serverHome;
 }
 
-export function serverStop() {
-	let terminal = vscode.window.createTerminal({
-		name: "Tomcat Force Stop",
-		hideFromUser: false,
-	});
-	terminal.show();
-	terminal.sendText("RESULT=$(lsof -i :8080 | awk 'NR==2 {print $2}')");
-	terminal.sendText("kill $RESULT");
-}
-
 export function settingCheck() {
 	if(jvmPath === ''){
 		vscode.window.showErrorMessage("JVM 8 경로를 찾을 수 없습니다.");

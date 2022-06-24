@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.65",
+	"version": "0.0.70",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -25,6 +25,7 @@
 		"onCommand:duc.webpack",
 		"onCommand:duc.serverstop",
 		"onCommand:duc.resourceUpload",
+		"onCommand:duc.thumbnailUpload",
 		"onCommand:duc.crashCheck",
 		"onCommand:duc.createSimul",
 		"onCommand:duc.createUi",
@@ -176,6 +177,11 @@
 			{
 				"command": "duc.resourceUpload",
 				"title": "Mobile Resource Upload",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.thumbnailUpload",
+				"title": "Thumbnail Upload",
 				"category": "DUC"
 			},
 			{

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
-import * as utils from './funtion';
+import * as fnc from './funtion';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
@@ -410,7 +410,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	deploy(node: Entry) {
-		if (utils.settingCheck()) {
+		if (fnc.settingCheck()) {
 			return;
 		}
 		let str = ""
@@ -438,7 +438,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	install(node: Entry) {
-		if (utils.settingCheck()) {
+		if (fnc.settingCheck()) {
 			return;
 		}
 		let str = ""
@@ -460,7 +460,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	webpack(node: Entry) {
-		if (utils.settingCheck()) {
+		if (fnc.settingCheck()) {
 			return;
 		}
 		let str = ""
@@ -497,7 +497,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	gradleTask(node: Entry) {
-		if (utils.settingCheck()) {
+		if (fnc.settingCheck()) {
 			return;
 		}
 		let str = ""

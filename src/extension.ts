@@ -2,8 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { FileSystemProvider, Entry } from './fileExplorer';
-import * as utils from './funtion';
-import * as mobile from './mobile';
+import * as fnc from './funtion';
+import * as util from './util';
 import * as maven from './maven';
 
 // this method is called when your extension is activated
@@ -24,9 +24,10 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('fileExplorer.webpack', (node: Entry) => treeDataProvider.webpack(node));
 	vscode.commands.registerCommand('fileExplorer.install', (node: Entry) => treeDataProvider.install(node));
 
-	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => mobile.resourceUpload(context));
-	let crashCehck = vscode.commands.registerCommand('duc.crashCheck', async () => mobile.crashCehck(context));
-	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => utils.serverStop());
+	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => util.resourceUpload(context));
+	let thumUpload = vscode.commands.registerCommand('duc.thumbnailUpload', async () => util.thumbnailUpload(context));
+	let crashCehck = vscode.commands.registerCommand('duc.crashCheck', async () => util.crashCehck(context));
+	let serverStop = vscode.commands.registerCommand('duc.serverstop', async () => util.serverStop());
 	let createSimul = vscode.commands.registerCommand('duc.createSimul', async () => maven.createSimul());
 	let createUi = vscode.commands.registerCommand('duc.createUi', async () => maven.createUi());
 	let refresh = vscode.commands.registerCommand('duc.refresh', async () => maven.refresh());
@@ -36,6 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	context.subscriptions.push(crashCehck);
 	context.subscriptions.push(resourceUpload);
+	context.subscriptions.push(thumUpload);
 	context.subscriptions.push(serverStop);
 	context.subscriptions.push(createSimul);
 	context.subscriptions.push(createUi);
@@ -65,7 +67,7 @@ export function deactivate() { }
 	// 		vscode.window.showErrorMessage("해당 프로젝트가 존재하지 않습니다.");
 	// 		return ;
 	// 	}
-	// 	if(utils.settingCheck()){
+	// 	if(fnc.settingCheck()){
 	// 		return ;
 	// 	}
 	// 	if(vscode.window.activeTextEditor){

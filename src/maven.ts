@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as utils from './funtion';
+import * as fnc from './funtion';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as date from 'date-and-time';
@@ -118,7 +118,7 @@ export async function refresh() {
         vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
         return;
     }
-    if (utils.settingCheck()) {
+    if (fnc.settingCheck()) {
         return;
     }
     str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
@@ -156,7 +156,7 @@ export async function deploy() {
         vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
         return;
     }
-    if (utils.settingCheck()) {
+    if (fnc.settingCheck()) {
         return;
     }
     str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
@@ -187,7 +187,7 @@ export async function webpack() {
         vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
         return;
     }
-    if (utils.settingCheck()) {
+    if (fnc.settingCheck()) {
         return;
     }
     str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-ui-slot-" + slotNum;
@@ -227,7 +227,7 @@ export async function gradleTask() {
         vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
         return;
     }
-    if (utils.settingCheck()) {
+    if (fnc.settingCheck()) {
         return;
     }
     str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-ui-slot-" + slotNum;

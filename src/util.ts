@@ -8,6 +8,17 @@ const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const crashPath = DUC.get('ndkPath', "") +".app";
 
+
+export function serverStop() {
+	let terminal = vscode.window.createTerminal({
+		name: "Tomcat Force Stop",
+		hideFromUser: false,
+	});
+	terminal.show();
+	terminal.sendText("RESULT=$(lsof -i :8080 | awk 'NR==2 {print $2}')");
+	terminal.sendText("kill $RESULT");
+}
+
 export async function resourceUpload(context: vscode.ExtensionContext) {
 		// vscode.window.showErrorMessage(context.extensionPath);
 		const resourceFoler = await vscode.window.showOpenDialog({
@@ -30,6 +41,11 @@ export async function resourceUpload(context: vscode.ExtensionContext) {
 			placeHolder: "Slot number",
 			prompt: "Slot number",
 		});
+		const regExp = /[0-9]/;
+		if (!regExp.test(slotNum)) {
+			vscode.window.showErrorMessage("다시 입력해주세요");
+			return;
+		}	
 		const slotNumber: number = Math.floor(+slotNum / 50) * 50 | 0;
 		if (forderName.length > 0 && forderPath.length > 0 && version.length > 0 && slotNumber > 0) {
 			let terminal = vscode.window.createTerminal({
@@ -42,6 +58,61 @@ export async function resourceUpload(context: vscode.ExtensionContext) {
 		else {
 			vscode.window.showErrorMessage("다시 입력해주세요.");
 		}
+}
+
+export async function thumbnailUpload(context: vscode.ExtensionContext): Promise<void> {
+	// vscode.window.showErrorMessage(context.extensionPath);
+	const resourceImage = await vscode.window.showOpenDialog({
+		filters: {
+			'png (*.png)': ['*']
+		},
+		canSelectFolders: false,
+		canSelectFiles: true,
+		canSelectMany: false,
+		openLabel: 'Select Resource Folder',
+	});
+	if (!resourceImage || resourceImage.length < 1 || resourceImage[0].fsPath.indexOf(".png") < 0) {
+		vscode.window.showErrorMessage("png 파일만 가능합니다.");
+		return;
+	}
+	let slotNumber = await vscode.window.showInputBox({
+		placeHolder: "Slot number",
+		prompt: "Slot number",
+	});
+	const regExp = /[0-9]/;
+    if (!regExp.test(slotNumber)) {
+        vscode.window.showErrorMessage("다시 입력해주세요");
+        return;
+    }
+	const version = await vscode.window.showQuickPick(['Thumbnail', 'Long Banner'], { placeHolder: 'Select Image' });
+	let serverPath = "";
+	let serverFileName = "";
+	if(version === "Thumbnail"){
+		serverPath = "/vol/wcasino/html/mobile/download/slot_thumbnail";
+		serverFileName = slotNumber + ".png";
+	}
+	else if(version === "Long Banner"){
+		serverPath = "/vol/wcasino/html/mobile/images/long";
+		serverFileName = "long_banner_" + slotNumber + ".png";
+	}
+	else{
+		vscode.window.showErrorMessage("다시 입력해주세요.");
+		return;
+	}
+	let _path = resourceImage[0].fsPath.split('/');
+	const name = _path[_path.length - 1];
+	const path = resourceImage[0].fsPath.replace(name,"");
+	if (name.length > 0 && path.length > 0 && version.length > 0 && slotNumber.length > 0) {
+		let terminal = vscode.window.createTerminal({
+			name: "Image Upload",
+			hideFromUser: false
+		});
+		terminal.show();
+		terminal.sendText("bash " + context.extensionPath + "/script/ThumbnailUpload.sh " + path + " " + name + " " + serverFileName + " " + serverPath + " ")
+	}
+	else {
+		vscode.window.showErrorMessage("다시 입력해주세요.");
+	}
 }
 
 export async function crashCehck(context: vscode.ExtensionContext) {
