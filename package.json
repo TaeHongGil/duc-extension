@@ -28,6 +28,7 @@
 		"onCommand:duc.crashCheck",
 		"onCommand:duc.createSimul",
 		"onCommand:duc.createUi",
+		"onCommand:duc.refresh",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
@@ -155,6 +156,11 @@
 			{
 				"command": "duc.deploy",
 				"title": "Simulation Deploy",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.refresh",
+				"title": "Local Simulation Refresh",
 				"category": "DUC"
 			},
 			{

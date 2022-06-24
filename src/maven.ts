@@ -108,43 +108,44 @@ export async function createUi() {
 ");
 }
 
-// export async function refresh() {
-//     let str = "";
-//     let slotNum = await vscode.window.showInputBox({
-//         placeHolder: "Slot number",
-//         prompt: "Slot number",
-//     });
-//     if (slotNum === "") {
-//         vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
-//         return;
-//     }
-//     if (utils.settingCheck()) {
-//         return;
-//     }
-//     str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
-//     if (fs.existsSync(str)) {
-//         let terminal = vscode.window.createTerminal({
-//             name: "Simulation Refresh",
-//             hideFromUser: false,
-//         });
-//         terminal.show();
-//         terminal.sendText("export GRADLE_HOME=" + gradlePath);
-//         terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-//         terminal.sendText("export JAVA_HOME=" + jvmPath);
-//         terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
-//         terminal.sendText("cd " + str);
-//         if (fs.existsSync(tomcatWorkspace)) {
-//             terminal.sendText("mvn install");
-//             terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
-//         }
-//         else {
-//             vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
-//         }
-//     }
-//     else {
-//         vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
-//     }
-// }
+export async function refresh() {
+    let str = "";
+    let slotNum = await vscode.window.showInputBox({
+        placeHolder: "Slot number",
+        prompt: "Slot number",
+    });
+    if (slotNum === "") {
+        vscode.window.showErrorMessage("슬롯번호가 입력되지 않았습니다.");
+        return;
+    }
+    if (utils.settingCheck()) {
+        return;
+    }
+    str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
+    if (fs.existsSync(str)) {
+        let terminal = vscode.window.createTerminal({
+            name: "Simulation Refresh",
+            hideFromUser: false,
+        });
+        terminal.show();
+        terminal.sendText("export GRADLE_HOME=" + gradlePath);
+        terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
+        terminal.sendText("export JAVA_HOME=" + jvmPath);
+        terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+        terminal.sendText("cd " + str);
+        if (fs.existsSync(tomcatWorkspace)) {
+            terminal.sendText("mvn install");
+            terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
+        }
+        else {
+            vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+        }
+    }
+    else {
+        vscode.window.showErrorMessage("해당 경로에 시뮬레이션 폴더가 없습니다.");
+    }
+}
+
 export async function deploy() {
     let str = "";
     let slotNum = await vscode.window.showInputBox({
