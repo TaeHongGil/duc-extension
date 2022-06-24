@@ -81,9 +81,10 @@ export async function createUi() {
         vscode.window.showErrorMessage("다시 입력해주세요");
         return;
     }
-    let slotClassName = "CSlot" + slotNum + slotName.replace(" ", "");
+    const regExpName = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+    let slotClassName = "CSlot" + slotNum + slotName.replace(regExpName, "");
     let terminal = vscode.window.createTerminal({
-        name: "Create Siulation Project",
+        name: "Create Ui Project",
         hideFromUser: false,
     });
     let now = new Date();
