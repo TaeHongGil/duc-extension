@@ -27,6 +27,8 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.71
+- 리소스업로드 수정, java.home 자동 설정 (jvm8)
 ## 0.0.70
 - 썸네일업로드 추가
 ## 0.0.63

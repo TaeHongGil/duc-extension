@@ -171,6 +171,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 	constructor() {
 		this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
+		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('java');
+		config.update("home", jvmPath, true, true);
 	}
 
 	get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {

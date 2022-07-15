@@ -7,6 +7,10 @@ serverFileName=$3
 sftpServer=ec2-user@duc-dev.doubleugames.com
 sftpPath=$4
 ############
+sftp -oPort=7302 $sftpServer <<EOF
+yes
+exit
+EOF
 
 cd $folderPath
 mv $fileName $serverFileName

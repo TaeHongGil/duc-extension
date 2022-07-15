@@ -16,13 +16,17 @@ else
     brew install p7zip
 fi
 
+sftp -oPort=7302 $sftpServer <<EOF
+yes
+exit
+EOF
+
 #sftp 경로 없으면 exit (첫접속시 에러메세지 확인되는지 모름)
 echo "ls $sftpPath" | sftp -oPort=7302 -b - $sftpServer
 if [ $? -eq 0 ]; then
     echo ""
 else
     echo "
-
 
 sftp error : check version or sftpPath
 sftpServer : $sftpServer
