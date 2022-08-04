@@ -171,8 +171,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 	constructor() {
 		this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('java');
-		config.update("home", jvmPath, true, true);
+		const config_java: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('java');
+		config_java.update("home", jvmPath, true, true);
+		config_java.update("format.settings.url", "https://raw.githubusercontent.com/TaeHongGil/java_formatter/main/Untitled.xml", true, true);
+		const config_cpp: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('C_Cpp');
+		config_cpp.update("clang_format_style", "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, BreakBeforeBraces: Stroustrup}", true, true);
 	}
 
 	get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
