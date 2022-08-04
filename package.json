@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.71",
+	"version": "0.0.72",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -107,16 +107,6 @@
 						"type": "string",
 						"default": "duc,dug,",
 						"description": "Directory 검색 설정"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.serverName": {
-						"type": "string",
-						"default": "",
-						"description": "Tomcat Server Name"
 					}
 				}
 			}
