@@ -28,7 +28,7 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 
 # Release Notes
 ## 0.0.72
-- cpp, java formatting설정 (cmd + k + d)
+- cpp, java formatting설정 (cmd + k + f)
 ## 0.0.71
 - 리소스업로드 수정, java.home 자동 설정 (jvm8)
 ## 0.0.70
