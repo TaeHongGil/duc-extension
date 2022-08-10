@@ -27,6 +27,8 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.80
+- 메뉴 추가
 ## 0.0.72
 - cpp, java formatting설정 (cmd + k + f)
 ## 0.0.71

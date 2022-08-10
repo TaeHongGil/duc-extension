@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.72",
+	"version": "0.0.73",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -36,6 +36,10 @@
 		"onCommand:fileExplorer.webpack",
 		"onCommand:fileExplorer.update",
 		"onCommand:fileExplorer.refreshFile",
+		"onCommand:fileExplorer.resourceUpload",
+		"onCommand:fileExplorer.thumbnailUpload",
+		"onCommand:fileExplorer.createUi",
+		"onCommand:fileExplorer.createSimul",
 		"onCommand:fileExplorer.updateAllForDuc"
 	],
 	"main": "./dist/extension.js",
@@ -129,6 +133,22 @@
 				"title": "Maven Update All For DUC"
 			},
 			{
+				"command": "fileExplorer.createSimul",
+				"title": "Create DUC Simulation Project"
+			},
+			{
+				"command": "fileExplorer.createUi",
+				"title": "Create DUC Ui Project"
+			},
+			{
+				"command": "fileExplorer.resourceUpload",
+				"title": "DUC Mobile Resource Upload"
+			},
+			{
+				"command": "fileExplorer.thumbnailUpload",
+				"title": "DUC Thumbnail Upload"
+			},
+			{
 				"command": "fileExplorer.update",
 				"title": "Maven Update"
 			},
@@ -205,6 +225,26 @@
 				},
 				{
 					"command": "fileExplorer.updateAllForDuc",
+					"when": "view == nodeDependencies",
+					"group": "2_workspace"
+
+				},
+				{
+					"command": "fileExplorer.createSimul",
+					"when": "view == nodeDependencies",
+					"group": "3_compare"
+				},
+				{
+					"command": "fileExplorer.createUi",
+					"when": "view == nodeDependencies",
+					"group": "3_compare"
+				},
+				{
+					"command": "fileExplorer.resourceUpload",
+					"when": "view == nodeDependencies"
+				},
+				{
+					"command": "fileExplorer.thumbnailUpload",
 					"when": "view == nodeDependencies"
 				}
 			],

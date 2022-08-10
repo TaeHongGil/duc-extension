@@ -23,6 +23,10 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('fileExplorer.gradleTask', (node: Entry) => treeDataProvider.gradleTask(node));
 	vscode.commands.registerCommand('fileExplorer.webpack', (node: Entry) => treeDataProvider.webpack(node));
 	vscode.commands.registerCommand('fileExplorer.install', (node: Entry) => treeDataProvider.install(node));
+	vscode.commands.registerCommand('fileExplorer.createSimul', (node: Entry) => maven.createSimul());
+	vscode.commands.registerCommand('fileExplorer.createUi', (node: Entry) => maven.createUi());
+	vscode.commands.registerCommand('fileExplorer.resourceUpload', (node: Entry) => util.resourceUpload(context));
+	vscode.commands.registerCommand('fileExplorer.thumbnailUpload', (node: Entry) => util.thumbnailUpload(context));
 
 	let resourceUpload = vscode.commands.registerCommand('duc.resourceUpload', async () => util.resourceUpload(context));
 	let thumUpload = vscode.commands.registerCommand('duc.thumbnailUpload', async () => util.thumbnailUpload(context));
