@@ -8,8 +8,7 @@ const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const crashPath = DUC.get('ndkPath', "") +".app";
 
-
-export function serverStop() {
+export async function serverStop() {
 	let terminal = vscode.window.createTerminal({
 		name: "Tomcat Force Stop",
 		hideFromUser: false,

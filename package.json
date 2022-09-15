@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.73",
+	"version": "0.0.74",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -64,6 +64,16 @@
 			]
 		},
 		"configuration": [
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.limit": {
+						"type": "boolean",
+						"default": "",
+						"description": "DUC 제한 해제"
+					}
+				}
+			},
 			{
 				"title": "DUC",
 				"properties": {

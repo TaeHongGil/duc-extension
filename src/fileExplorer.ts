@@ -8,6 +8,7 @@ const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
+const limit = DUC.get('limit', "");
 const tomcatPath = Tomcat.get("workspace");
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
@@ -395,7 +396,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	update(node: Entry) {
-		let str = ""
+		let str = "";
 		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
@@ -418,13 +419,13 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		if (fnc.settingCheck()) {
 			return;
 		}
-		let str = ""
+		let str = "";
 		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
-		let isSimul = regExpSimul.test(str);
+		let isSimul = limit ? true : regExpSimul.test(str);
 		if (isSimul) {
-			vscode.window.showInformationMessage(node.uri + " Maven Install");
+			vscode.window.showInformationMessage(node.uri + " Maven Deploy");
 			let terminal = vscode.window.createTerminal({
 				name: "Maven Deploy",
 				hideFromUser: false,
