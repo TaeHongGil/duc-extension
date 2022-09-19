@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
 	
-	let errorCheck = vscode.commands.registerCommand('byd.errorCheck', async () => util.bydSimulEorror(context));
+	let errorCheck = vscode.commands.registerCommand('byd.errorCheck', async () => util.bydSimulerror(context));
 
 	context.subscriptions.push(crashCehck);
 	context.subscriptions.push(resourceUpload);

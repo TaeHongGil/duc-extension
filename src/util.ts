@@ -17,9 +17,9 @@ export async function serverStop() {
 	terminal.sendText("RESULT=$(lsof -i :8080 | awk 'NR==2 {print $2}')");
 	terminal.sendText("kill $RESULT");
 }
-export async function bydSimulEorror(context: vscode.ExtensionContext) {
+export async function bydSimulerror(context: vscode.ExtensionContext) {
 	let terminal = vscode.window.createTerminal({
-		name: "Simul Eorror Check",
+		name: "Simul error Check",
 		hideFromUser: false
 	});
 	terminal.show();
