@@ -29,6 +29,7 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 # Release Notes
 ## 0.0.80
 - 메뉴 추가
+- duc 이외 프로젝트에서 디플로이 사용할 수 있도록 옵션추가 (DUC 제한 해제 옵션)
 ## 0.0.72
 - cpp, java formatting설정 (cmd + k + f)
 ## 0.0.71

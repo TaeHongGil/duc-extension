@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.74",
+	"version": "0.0.80",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -30,6 +30,7 @@
 		"onCommand:duc.createSimul",
 		"onCommand:duc.createUi",
 		"onCommand:duc.refresh",
+		"onCommand:byd.errorCheck",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
 		"onCommand:fileExplorer.gradleTask",
@@ -223,6 +224,11 @@
 				"command": "duc.webpack",
 				"title": "UI Webpack",
 				"category": "DUC"
+			},
+			{
+				"command": "byd.errorCheck",
+				"title": "Simulation Error Check",
+				"category": "BYD"
 			}
 		],
 		"menus": {

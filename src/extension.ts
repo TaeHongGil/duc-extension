@@ -39,6 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
 	
+	let errorCheck = vscode.commands.registerCommand('byd.errorCheck', async () => util.bydSimulEorror(context));
+
 	context.subscriptions.push(crashCehck);
 	context.subscriptions.push(resourceUpload);
 	context.subscriptions.push(thumUpload);
@@ -49,6 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(deploy);
 	context.subscriptions.push(webpack);
 	context.subscriptions.push(gradleTask);
+	context.subscriptions.push(errorCheck);
 }
 
 function openResource(resource: vscode.Uri): void {
