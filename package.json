@@ -124,6 +124,16 @@
 						"description": "Directory 검색 설정"
 					}
 				}
+			},
+			{
+				"title": "DUC",
+				"properties": {
+					"DUC.mainProject": {
+						"type": "string",
+						"default": "duc",
+						"description": "Main Project"
+					}
+				}
 			}
 		],
 		"commands": [

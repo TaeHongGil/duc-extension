@@ -27,6 +27,8 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.0.81
+- main project 옵션 추가
 ## 0.0.80
 - 메뉴 추가
 - duc 이외 프로젝트에서 디플로이 사용할 수 있도록 옵션추가 (DUC 제한 해제 옵션)

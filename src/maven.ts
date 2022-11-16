@@ -14,6 +14,7 @@ const tomcatPath = Tomcat.get("workspace");
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
 const serverHome: string = DUC.get("serverHome");
+const mainProject: string = DUC.get("mainProject");
 let tomcatWorkspace: string = tomcatPath + "/" + tomcatServerName;
 if (serverHome !== "") {
     tomcatWorkspace = serverHome;
@@ -53,7 +54,9 @@ export async function createSimul() {
 -Dversion=\"2.0.0.00\" \
 -Dslotname=\""+ slotNum + "\" \
 -Dsimulcorever=\"2.0.0.20-SNAPSHOT\" \
--Dslotnumber=\""+ slotNum + "\" \
+-Dslotnumber=\""+ slotNum + "\" <<EOF\n\
+y\n\
+EOF\n\
 ");
 }
 
@@ -121,7 +124,7 @@ export async function refresh() {
     if (fnc.settingCheck()) {
         return;
     }
-    str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
+    str = workspace.workspaceFolders[0].uri.fsPath + "/" + mainProject + "-simulation-slot-" + slotNum;
     if (fs.existsSync(str)) {
         let terminal = vscode.window.createTerminal({
             name: "Simulation Refresh",
@@ -135,7 +138,7 @@ export async function refresh() {
         terminal.sendText("cd " + str);
         if (fs.existsSync(tomcatWorkspace)) {
             terminal.sendText("mvn install");
-            terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/duc-simulation-web/WEB-INF/lib/");
+            terminal.sendText("cp " + str + "/target/*-SNAPSHOT.jar " + tomcatWorkspace + "/webapps/" + mainProject + "-simulation-web/WEB-INF/lib/");
         }
         else {
             vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
@@ -159,7 +162,7 @@ export async function deploy() {
     if (fnc.settingCheck()) {
         return;
     }
-    str = workspace.workspaceFolders[0].uri.fsPath + "/" + "duc-simulation-slot-" + slotNum;
+    str = workspace.workspaceFolders[0].uri.fsPath + "/" + mainProject + "-simulation-slot-" + slotNum;
     if (fs.existsSync(str)) {
         let terminal = vscode.window.createTerminal({
             name: "Simulation Deploy",
