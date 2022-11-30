@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as os from 'os';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
 import * as fnc from './funtion';
@@ -8,7 +9,6 @@ const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const Tomcat = workspace.getConfiguration("tomcat");
 const tomcatServerName = DUC.get('serverName', "");
-const limit = DUC.get('limit', "");
 const tomcatPath = Tomcat.get("workspace");
 const jvmPath = DUC.get('jvmPath', "");
 const gradlePath = DUC.get('gradlePath', "");
@@ -17,7 +17,7 @@ const regExpSimul = /duc\-simulation\-slot\-[0-9]/;
 const regExpUi = /duc\-ui\-slot\-[0-9]/;
 const serverHome: string = DUC.get("serverHome");
 let tomcatWorkspace: string = tomcatPath + "/" + tomcatServerName;
-if(serverHome !== ""){
+if (serverHome !== "") {
 	tomcatWorkspace = serverHome;
 }
 namespace _ {
@@ -170,13 +170,28 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	private _onDidChangeTreeData: vscode.EventEmitter<Entry | undefined | void> = new vscode.EventEmitter<Entry | undefined | void>();
 	readonly onDidChangeTreeData: vscode.Event<Entry | undefined | void> = this._onDidChangeTreeData.event;
 
-	constructor() {
+	constructor(context: vscode.ExtensionContext) {
 		this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
 		const config_java: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('java');
-		config_java.update("home", jvmPath, true, true);
-		config_java.update("format.settings.url", "https://raw.githubusercontent.com/TaeHongGil/java_formatter/main/Untitled.xml", true, true);
 		const config_cpp: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('C_Cpp');
-		config_cpp.update("clang_format_style", "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, BreakBeforeBraces: Stroustrup}", true, true);
+		const config_terminal: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('terminal');
+
+		config_terminal.update("integrated.showExitAlert",false,true,true);
+		let terminal = vscode.window.createTerminal({
+			name: "Setting DUG",
+			hideFromUser: true,
+		});
+		terminal.sendText("bash " + context.extensionPath + "/script/settingCheck.sh");
+		terminal.sendText("exit");
+		vscode.window.onDidCloseTerminal((terminal) => {
+			vscode.window.showInformationMessage("Setting End");
+			DUC.update("gradlePath", os.homedir() + "/ducSetting/gradle-2.14.1", true, true);
+			DUC.update("jvmPath", os.homedir() + "/ducSetting/jdk-8/Contents/Home", true, true);
+			config_cpp.update("clang_format_style", "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, BreakBeforeBraces: Stroustrup}", true, true);
+			config_java.update("format.settings.url", "https://raw.githubusercontent.com/TaeHongGil/java_formatter/main/Untitled.xml", true, true);
+			config_java.update("home", os.homedir() + "/ducSetting/jdk-8/Contents/Home", true, true);
+		});
+	
 	}
 
 	get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
@@ -302,18 +317,18 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				let children = await this.readDirectory(workspaceFolder.uri);
 				children = children.filter(array => array[1] === vscode.FileType.Directory);
 				// children = children.filter(array => (array[0].indexOf("dug\-") >= 0 || array[0].indexOf("duc\-") >= 0));
-				
+
 				let childrenTemp: [string, vscode.FileType][] = [];
 				array.forEach(element => {
-					if(element === ''){
+					if (element === '') {
 						return;
 					}
 					let str = element + "\-";
 					for (let index = 0; index < children.length; index++) {
 						const folderName = children[index][0];
-						if(folderName.indexOf(element + "\-") >= 0){
+						if (folderName.indexOf(element + "\-") >= 0) {
 							childrenTemp.push(children[index]);
-							children.splice(index,1);
+							children.splice(index, 1);
 							index--;
 						}
 					}
@@ -368,7 +383,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				terminalTemp.sendText("export GRADLE_HOME=" + gradlePath);
 				terminalTemp.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
 				terminalTemp.sendText("export JAVA_HOME=" + jvmPath);
-				terminalTemp.sendText("export PATH=${PATH}:$JAVA_HOME/bin");	
+				terminalTemp.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
 				terminalTemp.sendText("cd " + str);
 				terminalTemp.sendText("mvn clean install -U");
 				terminalTemp.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);
@@ -423,24 +438,18 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
-		let isSimul = limit ? true : regExpSimul.test(str);
-		if (isSimul) {
-			vscode.window.showInformationMessage(node.uri + " Maven Deploy");
-			let terminal = vscode.window.createTerminal({
-				name: "Maven Deploy",
-				hideFromUser: false,
-			});
-			terminal.show();
-			terminal.sendText("export GRADLE_HOME=" + gradlePath);
-			terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-			terminal.sendText("export JAVA_HOME=" + jvmPath);
-			terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
-			terminal.sendText("cd " + str);
-			terminal.sendText("mvn deploy");
-		}
-		else {
-			vscode.window.showErrorMessage("Simulation 프로젝트가 아닙니다");
-		}
+		vscode.window.showInformationMessage(node.uri + " Maven Deploy");
+		let terminal = vscode.window.createTerminal({
+			name: "Maven Deploy",
+			hideFromUser: false,
+		});
+		terminal.show();
+		terminal.sendText("export GRADLE_HOME=" + gradlePath);
+		terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
+		terminal.sendText("export JAVA_HOME=" + jvmPath);
+		terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+		terminal.sendText("cd " + str);
+		terminal.sendText("mvn deploy");
 	}
 
 	install(node: Entry) {

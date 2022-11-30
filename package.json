@@ -68,16 +68,6 @@
 			{
 				"title": "DUC",
 				"properties": {
-					"DUC.limit": {
-						"type": "boolean",
-						"default": "",
-						"description": "DUC 제한 해제"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
 					"DUC.jvmPath": {
 						"type": "string",
 						"default": "",

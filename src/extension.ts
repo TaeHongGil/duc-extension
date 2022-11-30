@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const rootPath = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0
 		? vscode.workspace.workspaceFolders[0].uri.fsPath : "";
-	const treeDataProvider = new FileSystemProvider();
+	const treeDataProvider = new FileSystemProvider(context);
 	vscode.window.registerTreeDataProvider('nodeDependencies', treeDataProvider);
 	vscode.commands.registerCommand('fileExplorer.openFile', (resource) => openResource(resource));
 	vscode.commands.registerCommand('fileExplorer.refreshFile', () => treeDataProvider.refresh());
