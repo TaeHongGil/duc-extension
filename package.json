@@ -110,7 +110,7 @@
 				"properties": {
 					"DUC.directorySetting": {
 						"type": "string",
-						"default": "duc,dug,",
+						"default": "duc,dug,byd,take5,",
 						"description": "Directory 검색 설정"
 					}
 				}
