@@ -173,6 +173,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	constructor(context: vscode.ExtensionContext) {
 		this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
 		const config_java: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('java');
+		const config_rsp: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('rsp-ui');
 		const config_cpp: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('C_Cpp');
 		const config_terminal: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('terminal');
 
@@ -189,7 +190,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			DUC.update("jvmPath", os.homedir() + "/ducSetting/jdk-8/Contents/Home", true, true);
 			config_cpp.update("clang_format_style", "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, BreakBeforeBraces: Stroustrup}", true, true);
 			config_java.update("format.settings.url", "https://raw.githubusercontent.com/TaeHongGil/java_formatter/main/Untitled.xml", true, true);
-			config_java.update("home", os.homedir() + "/ducSetting/jdk-8/Contents/Home", true, true);
+			config_rsp.update("rsp.java.home", os.homedir() + "/ducSetting/jdk-8/Contents/Home", true, true);
 		});
 	
 	}
