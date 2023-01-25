@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.92",
+	"version": "0.0.94",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -23,6 +23,7 @@
 		"onView:nodeDependencies",
 		"onView:fileExplorer",
 		"onCommand:duc.deploy",
+		"onCommand:duc.settingConfiguration",
 		"onCommand:duc.install",
 		"onCommand:duc.gradleTask",
 		"onCommand:duc.viewContainer",
@@ -181,12 +182,12 @@
 			},
 			{
 				"command": "duc.deploy",
-				"title": "Simulation Deploy",
+				"title": "Simulation Deploy(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.refresh",
-				"title": "Local Simulation Refresh",
+				"title": "Local Simulation Refresh(DUC)",
 				"category": "DUC"
 			},
 			{
@@ -201,32 +202,37 @@
 			},
 			{
 				"command": "duc.resourceUpload",
-				"title": "Mobile Resource Upload",
+				"title": "Mobile Resource Upload(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.thumbnailUpload",
-				"title": "Thumbnail Upload",
+				"title": "Thumbnail Upload(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.createSimul",
-				"title": "Create Simulation Project ",
+				"title": "Create Simulation Project(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.createUi",
-				"title": "Create Ui Project",
+				"title": "Create Ui Project(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.gradleTask",
-				"title": "UI Gradle Task",
+				"title": "UI Gradle Task(DUC)",
 				"category": "DUC"
 			},
 			{
 				"command": "duc.webpack",
-				"title": "UI Webpack",
+				"title": "UI Webpack(DUC)",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.settingConfiguration",
+				"title": "Setting Configuration",
 				"category": "DUC"
 			},
 			{

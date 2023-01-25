@@ -2,7 +2,6 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { FileSystemProvider, Entry } from './fileExplorer';
-import * as fnc from './funtion';
 import * as util from './util';
 import * as maven from './maven';
 
@@ -38,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let deploy = vscode.commands.registerCommand('duc.deploy', async () => maven.deploy());
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
-	
+	let settingConfiguration = vscode.commands.registerCommand('duc.settingConfiguration', async () => util.settingConfiguration(context));
 	let errorCheck = vscode.commands.registerCommand('byd.errorCheck', async () => util.bydSimulerror(context));
 
 	context.subscriptions.push(crashCehck);
@@ -52,62 +51,11 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(webpack);
 	context.subscriptions.push(gradleTask);
 	context.subscriptions.push(errorCheck);
+	context.subscriptions.push(settingConfiguration);
 }
 
 function openResource(resource: vscode.Uri): void {
 	vscode.window.showTextDocument(resource);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() { }
-
-
-	// let install = vscode.commands.registerTextEditorCommand('duc.install', async () => {
-	// 	// let str = vscode.workspace.workspaceFolders[0].uri.path;
-	// 	let slotNum = "";
-	// 	const textBox = await vscode.window.showInputBox({
-	// 		placeHolder: "Slot number",
-	// 		prompt: "Slot number",
-	// 		value: slotNum
-	// 	  });
-	// 	if(slotNum === ""){
-	// 		vscode.window.showErrorMessage("해당 프로젝트가 존재하지 않습니다.");
-	// 		return ;
-	// 	}
-	// 	if(fnc.settingCheck()){
-	// 		return ;
-	// 	}
-	// 	if(vscode.window.activeTextEditor){
-	// 		str = vscode.window.activeTextEditor.document.uri.path;
-	// 	}
-	// 	strArray = str.split('/');
-	// 	let index = 0;
-	// 	let exist = false;
-	// 	for (index = 0; index < strArray.length; index++) {
-	// 		let isSimul = regExpSimul.test(strArray[index]);
-	// 		let isUi = regExpUi.test(strArray[index]);
-	// 		if(isSimul || isUi){
-	// 			vscode.window.showInformationMessage(strArray[index] + " Maven Install");
-	// 			exist = true;
-	// 			break;
-	// 		}
-	// 	}
-	// 	if(exist){
-	// 		str = ""
-	// 		for (let i = 0; i <= index; i++) {
-	// 			str += strArray[i];
-	// 			str += '/';
-	// 		}
-	// 		let terminal = vscode.window.createTerminal({
-	// 			name: "Maven Install",
-	// 			hideFromUser: false,
-	// 		});
-	// 		terminal.show();
-	// 		terminal.sendText("cd " + str);
-	// 		terminal.sendText("mvn install");
-	// 	}
-	// 	else{
-	// 		vscode.window.showErrorMessage("파일 경로 중 Simulation 프로젝트 폴더가 존재하지 않습니다.");
-	// 	}
-	// });
-	// context.subscriptions.push(install);
