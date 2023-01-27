@@ -3,7 +3,7 @@
 	"displayName": "DUC Extension",
 	"description": "DUG DUC Extension",
 	"icon": "resources/dug_logo.png",
-	"version": "0.0.94",
+	"version": "0.0.95",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -23,7 +23,8 @@
 		"onView:nodeDependencies",
 		"onView:fileExplorer",
 		"onCommand:duc.deploy",
-		"onCommand:duc.settingConfiguration",
+		"onCommand:duc.ducSetting",
+		"onCommand:duc.tomcatSetting",
 		"onCommand:duc.install",
 		"onCommand:duc.gradleTask",
 		"onCommand:duc.viewContainer",
@@ -35,6 +36,7 @@
 		"onCommand:duc.createSimul",
 		"onCommand:duc.createUi",
 		"onCommand:duc.refresh",
+		"onCommand:duc.crashSetting",
 		"onCommand:byd.errorCheck",
 		"onCommand:fileExplorer.deploy",
 		"onCommand:fileExplorer.install",
@@ -231,8 +233,18 @@
 				"category": "DUC"
 			},
 			{
-				"command": "duc.settingConfiguration",
-				"title": "Setting Configuration",
+				"command": "duc.ducSetting",
+				"title": "DUC Setting",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.tomcatSetting",
+				"title": "Tomcat Setting",
+				"category": "DUC"
+			},
+			{
+				"command": "duc.crashSetting",
+				"title": "Crash Check Setting",
 				"category": "DUC"
 			},
 			{

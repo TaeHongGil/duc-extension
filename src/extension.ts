@@ -37,9 +37,13 @@ export function activate(context: vscode.ExtensionContext) {
 	let deploy = vscode.commands.registerCommand('duc.deploy', async () => maven.deploy());
 	let webpack = vscode.commands.registerCommand('duc.webpack', async () => maven.webpack());
 	let gradleTask = vscode.commands.registerCommand('duc.gradleTask', async () => maven.gradleTask());
-	let settingConfiguration = vscode.commands.registerCommand('duc.settingConfiguration', async () => util.settingConfiguration(context));
+	let ducSetting = vscode.commands.registerCommand('duc.ducSetting', async () => util.ducSetting(context));
+	let tomcatSetting = vscode.commands.registerCommand('duc.tomcatSetting', async () => util.tomcatSetting(context));
+	let crashSetting = vscode.commands.registerCommand('duc.crashSetting', async () => util.crashSetting(context));
 	let errorCheck = vscode.commands.registerCommand('byd.errorCheck', async () => util.bydSimulerror(context));
 
+	context.subscriptions.push(tomcatSetting);
+	context.subscriptions.push(crashSetting);
 	context.subscriptions.push(crashCehck);
 	context.subscriptions.push(resourceUpload);
 	context.subscriptions.push(thumUpload);
@@ -51,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(webpack);
 	context.subscriptions.push(gradleTask);
 	context.subscriptions.push(errorCheck);
-	context.subscriptions.push(settingConfiguration);
+	context.subscriptions.push(ducSetting);
 }
 
 function openResource(resource: vscode.Uri): void {
