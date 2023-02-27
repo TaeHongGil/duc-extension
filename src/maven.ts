@@ -44,16 +44,19 @@ export async function createSimul() {
     terminal.sendText("cd " + home);
     terminal.sendText("curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml");
     terminal.sendText("cd " + workspace.workspaceFolders[0].uri.fsPath);
+
+    let simulTypeVersion = "2.0.0.51";
+    let simulCoreVersion = "2.0.0.21-SNAPSHOT";
     terminal.sendText("mvn org.apache.maven.plugins:maven-archetype-plugin:3.1.2:generate \
 -DarchetypeArtifactId=\"duc-simulation-arch\" \
 -DarchetypeGroupId=\"com.doubleugames.dug\" \
--DarchetypeVersion=\"2.0.0.51\" \
+-DarchetypeVersion=\""+ simulTypeVersion + "\" \
 -DgroupId=\"com.doubleugames.dug.duc\" \
 -Dpackage=\"com.doubleugames.dug.duc\" \
 -DartifactId=\"duc-simulation-slot-"+ slotNum + "\" \
 -Dversion=\"2.0.0.00\" \
 -Dslotname=\""+ slotNum + "\" \
--Dsimulcorever=\"2.0.0.20-SNAPSHOT\" \
+-Dsimulcorever=\""+ simulCoreVersion + "\" \
 -Dslotnumber=\""+ slotNum + "\" <<EOF\n\
 y\n\
 EOF\n\
