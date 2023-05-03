@@ -45,12 +45,11 @@ export async function createSimul() {
     terminal.sendText("curl -O http://html5-tools.doubleugames.com:8081/repository/maven-releases/archetype-catalog.xml");
     terminal.sendText("cd " + workspace.workspaceFolders[0].uri.fsPath);
 
-    let simulTypeVersion = "2.0.0.51";
     let simulCoreVersion = "2.0.0.21-SNAPSHOT";
     terminal.sendText("mvn org.apache.maven.plugins:maven-archetype-plugin:3.1.2:generate \
 -DarchetypeArtifactId=\"duc-simulation-arch\" \
 -DarchetypeGroupId=\"com.doubleugames.dug\" \
--DarchetypeVersion=\""+ simulTypeVersion + "\" \
+-DarchetypeVersion=\"LATEST\" \
 -DgroupId=\"com.doubleugames.dug.duc\" \
 -Dpackage=\"com.doubleugames.dug.duc\" \
 -DartifactId=\"duc-simulation-slot-"+ slotNum + "\" \
@@ -102,7 +101,7 @@ export async function createUi() {
     terminal.sendText("mvn org.apache.maven.plugins:maven-archetype-plugin:3.1.2:generate \
 -DarchetypeArtifactId=\"duc-archetype-ui-slot\" \
 -DarchetypeGroupId=\"com.doubleugames.dug.duc\" \
--DarchetypeVersion=\"2.0.0.20\" \
+-DarchetypeVersion=\"LATEST\" \
 -DgroupId=\"com.doubleugames.dug.duc\" \
 -Dpackage=\"com.doubleugames.dug.duc\" \
 -DartifactId=\"duc-ui-slot-"+ slotNum + "\" \
@@ -110,7 +109,9 @@ export async function createUi() {
 -DslotType=\""+ slotNum + "\" \
 -DslotName=\""+ slotName + "\" \
 -DslotClassName=\""+ slotClassName + "\" \
--DcurrentDate=\""+ time + "\" \
+-DcurrentDate=\""+ time + "\" <<EOF\n\
+y\n\
+EOF\n\
 ");
 }
 
