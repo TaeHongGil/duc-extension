@@ -1,354 +1,363 @@
 {
-	"name": "duc-extension",
-	"displayName": "DUC Extension",
-	"description": "DUG DUC Extension",
-	"icon": "resources/dug_logo.png",
-	"version": "0.0.97",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/TaeHongGil/duc-extension.git"
-	},
-	"extensionPack": [
-		"redhat.vscode-community-server-connector",
-		"dugdslee.WFontPlugIn"
-	],
-	"engines": {
-		"vscode": "^1.67.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"publisher": "DOUBLEUGAMES",
-	"activationEvents": [
-		"onView:nodeDependencies",
-		"onView:fileExplorer",
-		"onCommand:duc.deploy",
-		"onCommand:duc.ducSetting",
-		"onCommand:duc.tomcatSetting",
-		"onCommand:duc.install",
-		"onCommand:duc.gradleTask",
-		"onCommand:duc.viewContainer",
-		"onCommand:duc.webpack",
-		"onCommand:duc.serverstop",
-		"onCommand:duc.resourceUpload",
-		"onCommand:duc.thumbnailUpload",
-		"onCommand:duc.crashCheck",
-		"onCommand:duc.createSimul",
-		"onCommand:duc.createUi",
-		"onCommand:duc.refresh",
-		"onCommand:duc.crashSetting",
-		"onCommand:byd.errorCheck",
-		"onCommand:fileExplorer.deploy",
-		"onCommand:fileExplorer.install",
-		"onCommand:fileExplorer.gradleTask",
-		"onCommand:fileExplorer.webpack",
-		"onCommand:fileExplorer.update",
-		"onCommand:fileExplorer.refreshFile",
-		"onCommand:fileExplorer.resourceUpload",
-		"onCommand:fileExplorer.thumbnailUpload",
-		"onCommand:fileExplorer.createUi",
-		"onCommand:fileExplorer.createSimul",
-		"onCommand:fileExplorer.updateAllForDuc"
-	],
-	"main": "./dist/extension.js",
-	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "package-explorer",
-					"title": "DUG",
-					"icon": "resources/dug_view.png"
-				}
-			]
-		},
-		"views": {
-			"package-explorer": [
-				{
-					"id": "nodeDependencies",
-					"name": "DUG Directory",
-					"icon": "media/dep.svg",
-					"contextualTitle": "Package Explorer"
-				}
-			]
-		},
-		"configuration": [
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.jvmPath": {
-						"type": "string",
-						"default": "",
-						"description": "JVM 8 Home 경로"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.ndkPath": {
-						"type": "string",
-						"default": "",
-						"description": "NDK Path"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.gradlePath": {
-						"type": "string",
-						"default": "",
-						"description": "Gradle 2.14.1 경로"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.serverHome": {
-						"type": "string",
-						"default": "",
-						"description": "vscode 1.68.0 버전 이후 사용"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.directorySetting": {
-						"type": "string",
-						"default": "duc,dug,byd,take5,",
-						"description": "Directory 검색 설정"
-					}
-				}
-			},
-			{
-				"title": "DUC",
-				"properties": {
-					"DUC.mainProject": {
-						"type": "string",
-						"default": "duc",
-						"description": "Main Project"
-					}
-				}
-			}
-		],
-		"commands": [
-			{
-				"command": "fileExplorer.refreshFile",
-				"title": "Refresh",
-				"icon": {
-					"light": "resources/light/refresh.svg",
-					"dark": "resources/dark/refresh.svg"
-				}
-			},
-			{
-				"command": "fileExplorer.install",
-				"title": "Maven Install"
-			},
-			{
-				"command": "fileExplorer.updateAllForDuc",
-				"title": "Maven Update All For DUC"
-			},
-			{
-				"command": "fileExplorer.createSimul",
-				"title": "Create DUC Simulation Project"
-			},
-			{
-				"command": "fileExplorer.createUi",
-				"title": "Create DUC Ui Project"
-			},
-			{
-				"command": "fileExplorer.resourceUpload",
-				"title": "DUC Mobile Resource Upload"
-			},
-			{
-				"command": "fileExplorer.thumbnailUpload",
-				"title": "DUC Thumbnail Upload"
-			},
-			{
-				"command": "fileExplorer.update",
-				"title": "Maven Update"
-			},
-			{
-				"command": "fileExplorer.deploy",
-				"title": "Maven Deploy"
-			},
-			{
-				"command": "fileExplorer.gradleTask",
-				"title": "Gradle Task"
-			},
-			{
-				"command": "fileExplorer.webpack",
-				"title": "Maven Webpack"
-			},
-			{
-				"command": "duc.deploy",
-				"title": "Simulation Deploy(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.refresh",
-				"title": "Local Simulation Refresh(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.crashCheck",
-				"title": "Mobile Crash Check",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.serverstop",
-				"title": "Server Force Stop",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.resourceUpload",
-				"title": "Mobile Resource Upload(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.thumbnailUpload",
-				"title": "Thumbnail Upload(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.createSimul",
-				"title": "Create Simulation Project(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.createUi",
-				"title": "Create Ui Project(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.gradleTask",
-				"title": "UI Gradle Task(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.webpack",
-				"title": "UI Webpack(DUC)",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.ducSetting",
-				"title": "DUC Setting",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.tomcatSetting",
-				"title": "Tomcat Setting",
-				"category": "DUC"
-			},
-			{
-				"command": "duc.crashSetting",
-				"title": "Crash Check Setting",
-				"category": "DUC"
-			},
-			{
-				"command": "byd.errorCheck",
-				"title": "Simulation Error Check",
-				"category": "BYD"
-			}
-		],
-		"menus": {
-			"commandPalette": [ ],
-			"view/title": [
-				{
-					"command": "fileExplorer.refreshFile",
-					"when": "view == nodeDependencies",
-					"group": "navigation"
-				},
-				{
-					"command": "fileExplorer.updateAllForDuc",
-					"when": "view == nodeDependencies",
-					"group": "2_workspace"
-
-				},
-				{
-					"command": "fileExplorer.createSimul",
-					"when": "view == nodeDependencies",
-					"group": "3_compare"
-				},
-				{
-					"command": "fileExplorer.createUi",
-					"when": "view == nodeDependencies",
-					"group": "3_compare"
-				},
-				{
-					"command": "fileExplorer.resourceUpload",
-					"when": "view == nodeDependencies"
-				},
-				{
-					"command": "fileExplorer.thumbnailUpload",
-					"when": "view == nodeDependencies"
-				}
-			],
-			"view/item/context": [
-				{
-					"command": "fileExplorer.install",
-					"group": "3_compare",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.update",
-					"group": "3_compare",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.webpack",
-					"group": "2_workspace",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.gradleTask",
-					"group": "2_workspace",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.deploy",
-					"group": "navigation",
-					"when": "view == nodeDependencies && viewItem == entry"
-				},
-				{
-					"command": "fileExplorer.refreshFile",
-					"when": "view == nodeDependencies && viewItem == entry",
-					"group": "inline"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run package",
-		"compile": "webpack",
-		"watch": "webpack --watch",
-		"package": "webpack --mode production --devtool hidden-source-map",
-		"compile-tests": "tsc -p . --outDir out",
-		"watch-tests": "tsc -p . -w --outDir out",
-		"pretest": "npm run compile-tests && npm run compile && npm run lint",
-		"lint": "eslint src --ext ts"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.2.0",
-		"@types/mkdirp": "^1.0.2",
-		"@types/mocha": "^9.1.0",
-		"@types/node": "14.x",
-		"@types/rimraf": "^3.0.2",
-		"@types/vscode": "^1.67.0",
-		"@typescript-eslint/eslint-plugin": "^5.12.1",
-		"@typescript-eslint/parser": "^5.12.1",
-		"@vscode/test-electron": "^2.1.2",
-		"eslint": "^8.9.0",
-		"glob": "^7.2.0",
-		"mocha": "^9.2.1",
-		"ts-loader": "^9.2.6",
-		"typescript": "^4.5.5",
-		"webpack": "^5.69.1",
-		"webpack-cli": "^4.9.2"
-	},
-	"dependencies": {
-		"date-and-time": "^2.3.1"
-	}
+    "name": "duc-extension",
+    "displayName": "DUC Extension",
+    "description": "DUG DUC Extension",
+    "icon": "resources/dug_logo.png",
+    "version": "0.0.98",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TaeHongGil/duc-extension.git"
+    },
+    "extensionPack": [
+        "redhat.vscode-community-server-connector",
+        "dugdslee.WFontPlugIn"
+    ],
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "publisher": "DOUBLEUGAMES",
+    "activationEvents": [
+        "onView:nodeDependencies",
+        "onView:fileExplorer",
+        "onCommand:duc.deploy",
+        "onCommand:duc.ducSetting",
+        "onCommand:duc.tomcatSetting",
+        "onCommand:duc.install",
+        "onCommand:duc.gradleTask",
+        "onCommand:duc.viewContainer",
+        "onCommand:duc.webpack",
+        "onCommand:duc.serverstop",
+        "onCommand:duc.resourceUpload",
+        "onCommand:duc.thumbnailUpload",
+        "onCommand:duc.crashCheck",
+        "onCommand:duc.createSimul",
+        "onCommand:duc.createUi",
+        "onCommand:duc.refresh",
+        "onCommand:duc.crashSetting",
+        "onCommand:byd.errorCheck",
+        "onCommand:fileExplorer.deploy",
+        "onCommand:fileExplorer.install",
+        "onCommand:fileExplorer.gradleTask",
+        "onCommand:fileExplorer.gradleTaskPublishAnimate",
+        "onCommand:fileExplorer.webpack",
+        "onCommand:fileExplorer.update",
+        "onCommand:fileExplorer.refreshFile",
+        "onCommand:fileExplorer.resourceUpload",
+        "onCommand:fileExplorer.thumbnailUpload",
+        "onCommand:fileExplorer.createUi",
+        "onCommand:fileExplorer.createSimul",
+        "onCommand:fileExplorer.updateAllForDuc"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "package-explorer",
+                    "title": "DUG",
+                    "icon": "resources/dug_view.png"
+                }
+            ]
+        },
+        "views": {
+            "package-explorer": [
+                {
+                    "id": "nodeDependencies",
+                    "name": "DUG Directory",
+                    "icon": "media/dep.svg",
+                    "contextualTitle": "Package Explorer"
+                }
+            ]
+        },
+        "configuration": [
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.jvmPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "JVM 8 Home 경로"
+                    }
+                }
+            },
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.ndkPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "NDK Path"
+                    }
+                }
+            },
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.gradlePath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Gradle 2.14.1 경로"
+                    }
+                }
+            },
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.serverHome": {
+                        "type": "string",
+                        "default": "",
+                        "description": "vscode 1.68.0 버전 이후 사용"
+                    }
+                }
+            },
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.directorySetting": {
+                        "type": "string",
+                        "default": "duc,dug,byd,take5,",
+                        "description": "Directory 검색 설정"
+                    }
+                }
+            },
+            {
+                "title": "DUC",
+                "properties": {
+                    "DUC.mainProject": {
+                        "type": "string",
+                        "default": "duc",
+                        "description": "Main Project"
+                    }
+                }
+            }
+        ],
+        "commands": [
+            {
+                "command": "fileExplorer.refreshFile",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "fileExplorer.install",
+                "title": "Maven Install"
+            },
+            {
+                "command": "fileExplorer.updateAllForDuc",
+                "title": "Maven Update All For DUC"
+            },
+            {
+                "command": "fileExplorer.createSimul",
+                "title": "Create DUC Simulation Project"
+            },
+            {
+                "command": "fileExplorer.createUi",
+                "title": "Create DUC Ui Project"
+            },
+            {
+                "command": "fileExplorer.resourceUpload",
+                "title": "DUC Mobile Resource Upload"
+            },
+            {
+                "command": "fileExplorer.thumbnailUpload",
+                "title": "DUC Thumbnail Upload"
+            },
+            {
+                "command": "fileExplorer.update",
+                "title": "Maven Update"
+            },
+            {
+                "command": "fileExplorer.deploy",
+                "title": "Maven Deploy"
+            },
+            {
+                "command": "fileExplorer.gradleTask",
+                "title": "Gradle Task"
+            },
+            {
+                "command": "fileExplorer.gradleTaskPublishAnimate",
+                "title": "Gradle Task (Publish Animate)"
+            },
+            {
+                "command": "fileExplorer.webpack",
+                "title": "Maven Webpack"
+            },
+            {
+                "command": "duc.deploy",
+                "title": "Simulation Deploy(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.refresh",
+                "title": "Local Simulation Refresh(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.crashCheck",
+                "title": "Mobile Crash Check",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.serverstop",
+                "title": "Server Force Stop",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.resourceUpload",
+                "title": "Mobile Resource Upload(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.thumbnailUpload",
+                "title": "Thumbnail Upload(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.createSimul",
+                "title": "Create Simulation Project(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.createUi",
+                "title": "Create Ui Project(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.gradleTask",
+                "title": "UI Gradle Task(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.webpack",
+                "title": "UI Webpack(DUC)",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.ducSetting",
+                "title": "DUC Setting",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.tomcatSetting",
+                "title": "Tomcat Setting",
+                "category": "DUC"
+            },
+            {
+                "command": "duc.crashSetting",
+                "title": "Crash Check Setting",
+                "category": "DUC"
+            },
+            {
+                "command": "byd.errorCheck",
+                "title": "Simulation Error Check",
+                "category": "BYD"
+            }
+        ],
+        "menus": {
+            "commandPalette": [],
+            "view/title": [
+                {
+                    "command": "fileExplorer.refreshFile",
+                    "when": "view == nodeDependencies",
+                    "group": "navigation"
+                },
+                {
+                    "command": "fileExplorer.updateAllForDuc",
+                    "when": "view == nodeDependencies",
+                    "group": "2_workspace"
+                },
+                {
+                    "command": "fileExplorer.createSimul",
+                    "when": "view == nodeDependencies",
+                    "group": "3_compare"
+                },
+                {
+                    "command": "fileExplorer.createUi",
+                    "when": "view == nodeDependencies",
+                    "group": "3_compare"
+                },
+                {
+                    "command": "fileExplorer.resourceUpload",
+                    "when": "view == nodeDependencies"
+                },
+                {
+                    "command": "fileExplorer.thumbnailUpload",
+                    "when": "view == nodeDependencies"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "fileExplorer.install",
+                    "group": "3_compare",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.update",
+                    "group": "3_compare",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.webpack",
+                    "group": "2_workspace",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.gradleTask",
+                    "group": "2_workspace",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.gradleTaskPublishAnimate",
+                    "group": "2_workspace",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.deploy",
+                    "group": "navigation",
+                    "when": "view == nodeDependencies && viewItem == entry"
+                },
+                {
+                    "command": "fileExplorer.refreshFile",
+                    "when": "view == nodeDependencies && viewItem == entry",
+                    "group": "inline"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.2.0",
+        "@types/mkdirp": "^1.0.2",
+        "@types/mocha": "^9.1.0",
+        "@types/node": "14.x",
+        "@types/rimraf": "^3.0.2",
+        "@types/vscode": "^1.67.0",
+        "@typescript-eslint/eslint-plugin": "^5.12.1",
+        "@typescript-eslint/parser": "^5.12.1",
+        "@vscode/test-electron": "^2.1.2",
+        "eslint": "^8.9.0",
+        "glob": "^7.2.0",
+        "mocha": "^9.2.1",
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.5.5",
+        "webpack": "^5.69.1",
+        "webpack-cli": "^4.9.2"
+    },
+    "dependencies": {
+        "date-and-time": "^2.3.1"
+    }
 }

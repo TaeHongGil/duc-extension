@@ -4,6 +4,8 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
 import * as fnc from './funtion';
+import { utils } from 'mocha';
+import * as util from './util';
 
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
@@ -475,6 +477,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		if (workspace.workspaceFolders) {
 			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
+
 		let terminal = vscode.window.createTerminal({
 			name: "Gradle Task",
 			hideFromUser: false,
@@ -482,6 +485,38 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		terminal.show();
 		terminal.sendText("export JAVA_HOME=" + jvmPath);
 		terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+		
+		terminal.sendText("cd " + str);
+		terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
+		if (fs.existsSync(tomcatWorkspace)) {
+			if (workspace.workspaceFolders) {
+				terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
+			}
+		}
+		else {
+			vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
+		}
+	}
+
+	gradleTaskPublishAnimate(context: vscode.ExtensionContext, node: Entry) {
+		if (fnc.settingCheck()) {
+			return;
+		}
+		let str = ""
+		if (workspace.workspaceFolders) {
+			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
+		}
+
+		util.publishAnimate(context, str +"/src/main/animate");
+		let terminal = vscode.window.createTerminal({
+			name: "Gradle Task",
+			hideFromUser: false,
+		});
+		terminal.show();
+		terminal.sendText("export JAVA_HOME=" + jvmPath);
+		terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
+		
+		terminal.sendText('eval "/Applications/Adobe\\ Animate\\ CC\\ 2019/Adobe\\ Animate\\ CC\\ 2019.app/Contents/MacOS/Adobe\\ Animate\\ CC\\ 2019" "'+context.extensionPath + '/script/test.jsfl"');
 		terminal.sendText("cd " + str);
 		terminal.sendText(gradlePath + "/bin/gradle deployCdnAnimateSlot");
 		if (fs.existsSync(tomcatWorkspace)) {

@@ -19,6 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('fileExplorer.updateAllForDuc', () => treeDataProvider.updateAllForDuc());
 	vscode.commands.registerCommand('fileExplorer.update', (node: Entry) => treeDataProvider.update(node));
 	vscode.commands.registerCommand('fileExplorer.deploy', (node: Entry) => treeDataProvider.deploy(node));
+	vscode.commands.registerCommand('fileExplorer.gradleTaskPublishAnimate', (node: Entry) => treeDataProvider.gradleTaskPublishAnimate(context, node));
 	vscode.commands.registerCommand('fileExplorer.gradleTask', (node: Entry) => treeDataProvider.gradleTask(node));
 	vscode.commands.registerCommand('fileExplorer.webpack', (node: Entry) => treeDataProvider.webpack(node));
 	vscode.commands.registerCommand('fileExplorer.install', (node: Entry) => treeDataProvider.install(node));

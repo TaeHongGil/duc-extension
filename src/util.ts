@@ -4,6 +4,7 @@ import * as os from 'os';
 const workspace = vscode.workspace;
 const DUC = workspace.getConfiguration("DUC");
 const crashPath = DUC.get('ndkPath', "") + ".app";
+import * as fs from 'fs';
 
 export async function serverStop() {
 	let terminal = vscode.window.createTerminal({
@@ -197,3 +198,19 @@ export async function crashSetting(context: vscode.ExtensionContext) {
 	});
 }
 
+export async function publishAnimate(context: vscode.ExtensionContext, path: string) {
+	path = "file://" + path;
+	let data = "\
+	var folderURI = '"+ path + "';\n\
+	var folderContents = FLfile.listFolder(folderURI);\n\
+	for (var i = 0; i < folderContents.length; i++) {\n\
+		if (folderContents[i].indexOf('.fla') > -1) {\n\
+			var doc = fl.openDocument(folderURI + '/' + folderContents[i]);\n\
+			doc.publish();\n\
+			doc.close();\n\
+		}\n\
+	}\n\
+	fl.quit(true);\n\
+	"
+	fs.writeFileSync(context.extensionPath + "/script/test.jsfl", data);
+}
