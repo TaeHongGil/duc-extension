@@ -210,7 +210,7 @@ export async function webpack() {
         terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
         terminal.sendText("cd " + str);
         terminal.sendText("mvn frontend:webpack");
-        terminal.sendText("mvn antrun:run");
+        terminal.sendText("mvn org.apache.maven.plugins:maven-antrun-plugin:1.3:run");
         if (fs.existsSync(tomcatWorkspace)) {
             if (workspace.workspaceFolders) {
                 terminal.sendText("rsync -ruv --delete " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/ " + tomcatWorkspace + "/webapps/dug-cdn-web/");
