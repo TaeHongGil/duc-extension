@@ -3,7 +3,7 @@
     "displayName": "DUC Extension",
     "description": "DUG DUC Extension",
     "icon": "resources/dug_logo.png",
-    "version": "0.0.99",
+    "version": "0.1.00",
     "repository": {
         "type": "git",
         "url": "https://github.com/TaeHongGil/duc-extension.git"
@@ -48,8 +48,7 @@
         "onCommand:fileExplorer.resourceUpload",
         "onCommand:fileExplorer.thumbnailUpload",
         "onCommand:fileExplorer.createUi",
-        "onCommand:fileExplorer.createSimul",
-        "onCommand:fileExplorer.updateAllForDuc"
+        "onCommand:fileExplorer.createSimul"
     ],
     "main": "./dist/extension.js",
     "contributes": {
@@ -146,10 +145,6 @@
             {
                 "command": "fileExplorer.install",
                 "title": "Maven Install"
-            },
-            {
-                "command": "fileExplorer.updateAllForDuc",
-                "title": "Maven Update All For DUC"
             },
             {
                 "command": "fileExplorer.createSimul",
@@ -265,11 +260,6 @@
                     "command": "fileExplorer.refreshFile",
                     "when": "view == nodeDependencies",
                     "group": "navigation"
-                },
-                {
-                    "command": "fileExplorer.updateAllForDuc",
-                    "when": "view == nodeDependencies",
-                    "group": "2_workspace"
                 },
                 {
                     "command": "fileExplorer.createSimul",

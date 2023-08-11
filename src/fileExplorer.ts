@@ -4,7 +4,6 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
 import * as fnc from './funtion';
-import { utils } from 'mocha';
 import * as util from './util';
 
 const workspace = vscode.workspace;
@@ -162,8 +161,6 @@ export interface Entry {
 	uri: string;
 }
 
-//#endregion
-
 export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscode.FileSystemProvider {
 
 	private _onDidChangeFile: vscode.EventEmitter<vscode.FileChangeEvent[]>;
@@ -183,15 +180,17 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	watch(uri: vscode.Uri, options: { recursive: boolean; excludes: string[]; }): vscode.Disposable {
-		const watcher = fs.watch(uri.fsPath, { recursive: options.recursive }, async (event: string, filename: string | Buffer) => {
-			const filepath = path.join(uri.fsPath, _.normalizeNFC(filename.toString()));
+		const watcher = fs.watch(uri.fsPath, { recursive: options.recursive }, async (event, filename) => {
+			if (filename) {
+				const filepath = path.join(uri.fsPath, _.normalizeNFC(filename.toString()));
 
-			// TODO support excludes (using minimatch library?)
+				// TODO support excludes (using minimatch library?)
 
-			this._onDidChangeFile.fire([{
-				type: event === 'change' ? vscode.FileChangeType.Changed : await _.exists(filepath) ? vscode.FileChangeType.Created : vscode.FileChangeType.Deleted,
-				uri: uri.with({ path: filepath })
-			} as vscode.FileChangeEvent]);
+				this._onDidChangeFile.fire([{
+					type: event === 'change' ? vscode.FileChangeType.Changed : await _.exists(filepath) ? vscode.FileChangeType.Created : vscode.FileChangeType.Deleted,
+					uri: uri.with({ path: filepath })
+				} as vscode.FileChangeEvent]);
+			}
 		});
 
 		return { dispose: () => watcher.close() };
@@ -343,58 +342,17 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		};
 	}
 
-	updateAllForDuc() {
-		if (!fs.existsSync(tomcatWorkspace)) {
-			vscode.window.showErrorMessage("tomcat 서버 폴더가 없습니다.");
-			return;
-		}
+	update(node: Entry, context: vscode.ExtensionContext) {
+		let project = "";
 		if (workspace.workspaceFolders) {
-			vscode.window.showInformationMessage("Maven Update Duc");
-			let terminal = vscode.window.createTerminal({
-				name: "Maven Update All",
-				hideFromUser: false,
-			});
-			let folder = ["duc-api-web", "dug-cdn-web", "duc-simulation-web"];
-			let str = "";
-			terminal.sendText("rm -rf " + workspace.workspaceFolders[0].uri.fsPath + "/dug-cdn-web/src/main/webapp/cdn/resources");
-
-			for (let index = 0; index < folder.length; index++) {
-				let terminalTemp = vscode.window.createTerminal({
-					name: "Maven Update All",
-					hideFromUser: false,
-				});
-				str = workspace.workspaceFolders[0].uri.fsPath + "/" + folder[index];
-				terminalTemp.show();
-				terminalTemp.sendText("export GRADLE_HOME=" + gradlePath);
-				terminalTemp.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-				terminalTemp.sendText("export JAVA_HOME=" + jvmPath);
-				terminalTemp.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
-				terminalTemp.sendText("cd " + str);
-				terminalTemp.sendText("mvn clean install -U");
-				terminalTemp.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + folder[index]);
-				terminalTemp.sendText("cp -r " + str + "/target/" + folder[index] + " " + tomcatWorkspace + "/webapps/");
-			}
-		}
-	}
-
-	update(node: Entry) {
-		let str = "";
-		if (workspace.workspaceFolders) {
-			str = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
+			project = workspace.workspaceFolders[0].uri.fsPath + "/" + node.uri;
 		}
 		let terminal = vscode.window.createTerminal({
 			name: "Maven Update",
 			hideFromUser: false,
 		});
 		terminal.show();
-		terminal.sendText("export GRADLE_HOME=" + gradlePath);
-		terminal.sendText("export PATH=$GRADLE_HOME/bin:$PATH");
-		terminal.sendText("export JAVA_HOME=" + jvmPath);
-		terminal.sendText("export PATH=${PATH}:$JAVA_HOME/bin");
-		terminal.sendText("cd " + str);
-		terminal.sendText("mvn clean install -U");
-		terminal.sendText("rm -rf " + tomcatWorkspace + "/webapps/" + node.uri);
-		terminal.sendText("cp -r " + str + "/target/" + node.uri + " " + tomcatWorkspace + "/webapps/");
+		terminal.sendText(`bash ${context.extensionPath}/script/mavenUpdate.sh ${project} ${gradlePath} ${jvmPath} ${tomcatWorkspace}`);
 	}
 
 	deploy(node: Entry) {

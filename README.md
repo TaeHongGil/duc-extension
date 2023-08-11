@@ -27,6 +27,8 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
 [사용 방법](https://studio-g.atlassian.net/wiki/spaces/slotduc/pages/731545942/VS+Code+Extension)
 
 # Release Notes
+## 0.1.00
+- maven update final name따라가도록 수정
 ## 0.0.98
 - gradle task (Publish Animate)추가 
 ## 0.0.95
