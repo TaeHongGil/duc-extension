@@ -1,3 +1,6 @@
+# 레포지토리 이관
+
+<strike>
 # 기능
 UI Webpack - 이클립스 Maven Webpack
 
@@ -72,3 +75,4 @@ Maven Update - 해당 폴더 업데이트 후 톰캣에 업로드
   
 ## 0.0.10
 - 기본 기능 추가
+</strike>
