@@ -5,7 +5,7 @@ version=$3
 date=$(date +%d%일%H시%M분%S초)
 slotNum=$4
 ############ sftp 정보
-sftpServer=ec2-user@duc-dev.doubleugames.com
+sftpServer=
 sftpPath=/vol/wcasino/html/mobile/download/s$4/$version
 ############
 #p7zip 설치
